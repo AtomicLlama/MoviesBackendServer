@@ -19,6 +19,7 @@
   "module-name": "./bin/module-name"
 },
   "scripts": {
+    "prestart":"MongoDB/bin/mongod --fork --logpath /dev/null",
     "start": "node runserver.js",
     "stop": "MongoDB/bin/mongo admin --eval 'db.shutdownServer()' > /dev/null"
   },
@@ -38,7 +39,8 @@
 ],
   "dependencies": {
     "httpdispatcher": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "localtunnel": "*"
   },
   "preferGlobal": true,
   "private": true,

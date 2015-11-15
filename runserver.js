@@ -6,6 +6,15 @@ var http = require('http');
 var dispatcher = require('httpdispatcher');
 var url = require('url');
 var ObjectId = require('mongodb').ObjectID;
+var localtunnel = require('localtunnel');
+
+var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
+    if (err === null ) {
+      console.log("New Tunnel Assigned!: " + tunnel.url);
+    } else {
+      console.log("Error:  " + err);
+    }
+});
 
 //Mongo DB Client
 
@@ -22,18 +31,12 @@ var isEmpty = function(value){
 };
 
 var isUserRegistered = function(id, callback) {
-  console.log("Checking for user with id: " + id);
   MongoClient.connect(mongoURL, function(err, db) {
     db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
-      console.log(doc);
       if (isEmpty(doc) || doc === null || err !== null) {
         db.close();
-        console.log("Couldn't Find User");
-        console.log(doc);
-        console.log(err);
         callback(null);
       } else {
-        console.log("Found User!");
         db.close();
         callback(doc);
       }
@@ -42,19 +45,13 @@ var isUserRegistered = function(id, callback) {
 };
 
 var registerUser = function(user, callback) {
-  console.log("Registering User!");
-  var mongo = 'mongodb://localhost:27017/test';
   MongoClient.connect(mongoURL, function(err, db) {
-    console.log("Connection Established");
     db.collection('users').insertOne(user, function(errorInserting, result) {
-      console.log("Inserted!");
       db.close();
       if (errorInserting !== null) {
-        console.error(errorInserting);
         callback(errorInserting);
       } else {
-        console.log("Inserted: " + result);
-        callback(result);
+        callback(user);
       }
     });
   });
@@ -68,14 +65,12 @@ dispatcher.onGet("/", function(req, res) {
 dispatcher.onGet("/user", function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
-  var id = query.id;
+  var id = query.userid;
   var callback = function(data) {
     if (data !== null) {
-      console.log("Found a User!");
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.end(JSON.stringify(data,0,4));
     } else {
-      console.log("Have To Register User");
       var name = "Mathias Quintero";
       var user = {
         "facebookID": id,
@@ -88,7 +83,6 @@ dispatcher.onGet("/user", function(req, res) {
         "watchlist" : []
       };
       var success = function(response) {
-        console.log(response);
         res.writeHead(response !== user ? 200 : 501, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(response,0,4));
       };
@@ -96,7 +90,58 @@ dispatcher.onGet("/user", function(req, res) {
     }
   };
   isUserRegistered(id, callback);
+});
 
+dispatcher.onGet("/tickets", function(req, res) {
+  var queryObject = url.parse(req.url, true);
+  var query = queryObject.query;
+  var id = query.userid;
+  var callback = function(data) {
+    if (data !== null) {
+      var tickets = data.tickets;
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(tickets,0,4));
+    } else {
+      res.writeHead(404, {'Content-Type': 'application/json'});
+      res.end("No Tickets Available For User");
+    }
+  };
+  isUserRegistered(id, callback);
+});
+
+dispatcher.onGet("/watchlist", function(req, res) {
+  var queryObject = url.parse(req.url, true);
+  var query = queryObject.query;
+  var id = query.userid;
+  var callback = function(data) {
+    if (data !== null) {
+      var movies = data.watchlist;
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(movies,0,4));
+    } else {
+      res.writeHead(404, {'Content-Type': 'application/json'});
+      res.end("No Watchlist Available For User. Check if user is registered!");
+    }
+  };
+  isUserRegistered(id, callback);
+});
+
+dispatcher.onPost("/watchlist", function(req, res) {
+  var queryObject = url.parse(req.url, true);
+  var query = queryObject.query;
+  var id = query.userid;
+  var movie = query.movie;
+  var callback = function(data) {
+    if (data !== null) {
+      var tickets = data.tickets;
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(tickets,0,4));
+    } else {
+      res.writeHead(404, {'Content-Type': 'application/json'});
+      res.end("No Tickets Available For User");
+    }
+  };
+  isUserRegistered(id, callback);
 });
 
 console.log('Server running at http://127.0.0.1:80/');
