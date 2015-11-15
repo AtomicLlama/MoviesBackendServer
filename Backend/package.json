@@ -1,0 +1,49 @@
+{
+  "name": "movies-backend-server",
+  "version": "0.0.1",
+  "description": "Logic behind our backend server",
+  "author": "Totally Awesome Source Code",
+  "contributors": [
+    {
+    "name": "Mathias Quintero",
+    "email": "mathias.quintero@tum.de"
+    },
+    {"name": "Andrei Costinescu",
+    "email": "andrei.costinescu@tum.de"
+    },
+    {"name": "Joonas Palm",
+    "email": "joonas.palm@tum.de"
+    }
+  ],
+  "bin": {
+  "module-name": "./bin/module-name"
+},
+  "scripts": {
+    "prestart": "MongoDB/bin/mongod --fork --logpath /dev/null",
+    "start": "node runserver.js",
+    "stop": "MongoDB/bin/mongo admin --eval 'db.shutdownServer()' > /dev/null"
+  },
+  "main": "runserver.js",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/awesomesourcecode/BackendServer"
+},
+  "bugs": {
+  "url": "https://github.com/awesomesourcecode/BackendServer/issues"
+},
+  "keywords": [
+  "movies",
+  "app",
+  "stuff",
+  "awesome"
+],
+  "dependencies": {
+    "httpdispatcher": "*",
+    "mongodb": "*"
+  },
+  "preferGlobal": true,
+  "private": true,
+  "subdomain": "foobar",
+  "analyze": true,
+  "license": "MIT"
+}
