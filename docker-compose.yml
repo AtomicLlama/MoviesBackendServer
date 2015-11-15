@@ -1,0 +1,10 @@
+mongo:
+  image: mongo
+  ports:
+    - "27017"
+node:
+  build: ./Node
+  ports:
+    - "8080"
+  links:
+    - mongo:db
