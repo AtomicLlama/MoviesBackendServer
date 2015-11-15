@@ -15,7 +15,7 @@ var mongoURL = 'mongodb://localhost:27017/test';
 
 http.createServer(function (request, response) {
   dispatcher.dispatch(request, response);
-}).listen(80);
+}).listen(8080);
 
 var isEmpty = function(value){
     return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
