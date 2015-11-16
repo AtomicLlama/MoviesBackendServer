@@ -6,15 +6,15 @@ var http = require('http');
 var dispatcher = require('httpdispatcher');
 var url = require('url');
 var ObjectId = require('mongodb').ObjectID;
-var localtunnel = require('localtunnel');
-
-var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
-    if (err === null ) {
-      console.log("New Tunnel Assigned!: " + tunnel.url);
-    } else {
-      console.log("Error:  " + err);
-    }
-});
+// var localtunnel = require('localtunnel');
+//
+// var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
+//     if (err === null ) {
+//       console.log("New Tunnel Assigned!: " + tunnel.url);
+//     } else {
+//       console.log("Error:  " + err);
+//     }
+// });
 
 //Mongo DB Client
 
@@ -24,7 +24,7 @@ var mongoURL = 'mongodb://localhost:27017/test';
 
 http.createServer(function (request, response) {
   dispatcher.dispatch(request, response);
-}).listen(8080);
+}).listen(80);
 
 var isEmpty = function(value){
     return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
