@@ -37,8 +37,7 @@
 ],
   "dependencies": {
     "httpdispatcher": "*",
-    "mongodb": "*",
-    "localtunnel": "*"
+    "mongodb": "*"
   },
   "preferGlobal": true,
   "private": true,
