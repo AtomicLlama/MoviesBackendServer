@@ -156,7 +156,7 @@ dispatcher.onPost("/language", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = query.pref;
+    var pref = req.body;
     rewriteAttributeForUser(id, function(user){
       user.preferredLanguageSetting = pref;
       return user;
@@ -172,7 +172,7 @@ dispatcher.onPost("/distance", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = query.pref;
+    var pref = req.body;
     rewriteAttributeForUser(id, function(user){
       user.maxDistanceForCinema = pref;
       return user;
@@ -188,7 +188,7 @@ dispatcher.onPost("/notifyWatch", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = query.pref !== "0";
+    var pref = req.body !== "0";
     rewriteAttributeForUser(id, function(user){
       user.notifyOnWatchList = pref;
       return user;
@@ -204,9 +204,40 @@ dispatcher.onPost("/notifySub", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = query.pref !== "0";
+    var pref = req.body !== "0";
     rewriteAttributeForUser(id, function(user){
       user.notifyOnSubscription = pref;
+      return user;
+    },res);
+  } catch (e) {
+    res.writeHead(501, {'Content-Type': 'application/json'});
+    res.end("You need to specify what setting to add through the query.");
+  }
+});
+
+dispatcher.onPost("/watchlist", function(req, res) {
+  var queryObject = url.parse(req.url, true);
+  var query = queryObject.query;
+  var id = query.userid;
+  try {
+    var movie = req.body;
+    var shouldDelete = false;
+    if(query.remove) {
+      shouldDelete = query.remove !== "0";
+      console.log(shouldDelete);
+    }
+    rewriteAttributeForUser(id, function(user){
+      var watchlist = user.watchlist;
+      var newWatchlist = [];
+      for (var i = 0;i<watchlist.length;i++) {
+        if (watchlist[i] != movie) {
+          newWatchlist.push(watchlist[i]);
+        }
+      }
+      if (!shouldDelete) {
+        newWatchlist.push(movie);
+      }
+      user.watchlist = newWatchlist;
       return user;
     },res);
   } catch (e) {
