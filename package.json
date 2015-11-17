@@ -19,9 +19,7 @@
   "module-name": "./bin/module-name"
 },
   "scripts": {
-    "prestart":"MongoDB/bin/mongod --fork --logpath /dev/null",
-    "start": "node runserver.js",
-    "stop": "MongoDB/bin/mongo admin --eval 'db.shutdownServer()' > /dev/null"
+    "start": "node runserver.js"
   },
   "main": "runserver.js",
   "repository": {
@@ -39,12 +37,13 @@
 ],
   "dependencies": {
     "httpdispatcher": "*",
-    "mongodb": "*",
-    "localtunnel": "*"
+    "mongodb": "*"
   },
   "preferGlobal": true,
   "private": true,
-  "subdomain": "foobar",
   "analyze": true,
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": "4.1.1"
+  }
 }

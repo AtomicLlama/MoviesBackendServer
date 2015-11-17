@@ -22,7 +22,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 var MongoClient = require('mongodb').MongoClient;
 
-var mongoURL = 'mongodb://localhost:27017/test';
+var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
 
 var port = process.env.PORT || 8080;
 
@@ -36,6 +36,7 @@ var isEmpty = function(value){
 
 var isUserRegistered = function(id, callback) {
   MongoClient.connect(mongoURL, function(err, db) {
+    console.log(err);
     db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
       if (isEmpty(doc) || doc === null || err !== null) {
         db.close();
@@ -89,6 +90,7 @@ dispatcher.onGet("/user", function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   var id = query.userid;
+  console.log("Query ID = " + id);
   var callback = function(data) {
     if (data !== null) {
       res.writeHead(200, {'Content-Type': 'application/json'});
