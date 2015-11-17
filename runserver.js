@@ -6,25 +6,27 @@ var http = require('http');
 var dispatcher = require('httpdispatcher');
 var url = require('url');
 var ObjectId = require('mongodb').ObjectID;
-var localtunnel = require('localtunnel');
-
-var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
-    if (err === null ) {
-      console.log("New Tunnel Assigned!: " + tunnel.url);
-    } else {
-      console.log("Error:  " + err);
-    }
-});
+// var localtunnel = require('localtunnel');
+//
+// var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
+//     if (err === null ) {
+//       console.log("New Tunnel Assigned!: " + tunnel.url);
+//     } else {
+//       console.log("Error:  " + err);
+//     }
+// });
 
 //Mongo DB Client
 
 var MongoClient = require('mongodb').MongoClient;
 
-var mongoURL = 'mongodb://localhost:27017/test';
+var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
+
+var port = process.env.PORT || 8080;
 
 http.createServer(function (request, response) {
   dispatcher.dispatch(request, response);
-}).listen(8080);
+}).listen(port);
 
 var isEmpty = function(value){
     return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
@@ -32,6 +34,7 @@ var isEmpty = function(value){
 
 var isUserRegistered = function(id, callback) {
   MongoClient.connect(mongoURL, function(err, db) {
+    console.log(err);
     db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
       if (isEmpty(doc) || doc === null || err !== null) {
         db.close();
@@ -66,6 +69,7 @@ dispatcher.onGet("/user", function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   var id = query.userid;
+  console.log("Query ID = " + id);
   var callback = function(data) {
     if (data !== null) {
       res.writeHead(200, {'Content-Type': 'application/json'});
