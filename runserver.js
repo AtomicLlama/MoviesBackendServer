@@ -156,7 +156,7 @@ dispatcher.onPost("/language", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = req.body;
+    var pref = query.pref;
     rewriteAttributeForUser(id, function(user){
       user.preferredLanguageSetting = pref;
       return user;
@@ -172,7 +172,7 @@ dispatcher.onPost("/distance", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = req.body;
+    var pref = query.pref;
     rewriteAttributeForUser(id, function(user){
       user.maxDistanceForCinema = pref;
       return user;
@@ -188,7 +188,7 @@ dispatcher.onPost("/notifyWatch", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = req.body !== "0";
+    var pref = query.pref !== "0";
     rewriteAttributeForUser(id, function(user){
       user.notifyOnWatchList = pref;
       return user;
@@ -204,7 +204,7 @@ dispatcher.onPost("/notifySub", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var pref = req.body !== "0";
+    var pref = query.pref !== "0";
     rewriteAttributeForUser(id, function(user){
       user.notifyOnSubscription = pref;
       return user;
@@ -220,11 +220,10 @@ dispatcher.onPost("/watchlist", function(req, res) {
   var query = queryObject.query;
   var id = query.userid;
   try {
-    var movie = req.body;
+    var movie = query.movie;
     var shouldDelete = false;
-    if(query.remove) {
-      shouldDelete = query.remove !== "0";
-      console.log(shouldDelete);
+    if (query.remove) {
+      shouldDelete = query.remove;
     }
     rewriteAttributeForUser(id, function(user){
       var watchlist = user.watchlist;
@@ -245,5 +244,6 @@ dispatcher.onPost("/watchlist", function(req, res) {
     res.end("You need to specify what setting to add through the query.");
   }
 });
+
 
 console.log('Server running at http://127.0.0.1:80/');
