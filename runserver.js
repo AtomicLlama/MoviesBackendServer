@@ -223,7 +223,7 @@ dispatcher.onPost("/watchlist", function(req, res) {
     var movie = query.movie;
     var shouldDelete = false;
     if (query.remove) {
-      shouldDelete = query.remove;
+      shouldDelete = query.remove !== "0";
     }
     rewriteAttributeForUser(id, function(user){
       var watchlist = user.watchlist;
