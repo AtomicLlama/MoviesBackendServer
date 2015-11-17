@@ -41,7 +41,9 @@
   },
   "preferGlobal": true,
   "private": true,
-  "subdomain": "foobar",
   "analyze": true,
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": "4.1.1"
+  }
 }

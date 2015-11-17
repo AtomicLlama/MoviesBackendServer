@@ -22,9 +22,11 @@ var MongoClient = require('mongodb').MongoClient;
 
 var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
 
+var port = process.env.PORT || 8080;
+
 http.createServer(function (request, response) {
   dispatcher.dispatch(request, response);
-}).listen(80);
+}).listen(port);
 
 var isEmpty = function(value){
     return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
