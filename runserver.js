@@ -141,10 +141,11 @@ dispatcher.onGet("/watchlist", function(req, res) {
   var callback = function(data) {
     if (data !== null) {
       var movies = data.watchlist;
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      res.writeHead(200, {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+      });
       res.end(JSON.stringify(movies,0,4));
     } else {
       res.writeHead(404, {'Content-Type': 'application/json'});
