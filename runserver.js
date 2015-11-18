@@ -142,6 +142,9 @@ dispatcher.onGet("/watchlist", function(req, res) {
     if (data !== null) {
       var movies = data.watchlist;
       res.writeHead(200, {'Content-Type': 'application/json'});
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       res.end(JSON.stringify(movies,0,4));
     } else {
       res.writeHead(404, {'Content-Type': 'application/json'});
@@ -223,7 +226,9 @@ dispatcher.onPost("/watchlist", function(req, res) {
     var movie = query.movie;
     var shouldDelete = false;
     if (query.remove) {
+      console.log("Query: " + query.remove);
       shouldDelete = query.remove !== "0";
+      console.log("shouldDelete: " + shouldDelete);
     }
     rewriteAttributeForUser(id, function(user){
       var watchlist = user.watchlist;
