@@ -30,6 +30,15 @@ http.createServer(function (request, response) {
   dispatcher.dispatch(request, response);
 }).listen(port);
 
+var respondWith = function(res, item) {
+  res.writeHead(200, {'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://awesomesourcecode.github.io/Movies-Web-Frontend/',
+    'Access-Control-Allow-Methods': 'GET, POST',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+  });
+  res.end(item);
+};
+
 var isEmpty = function(value){
     return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
 };
@@ -60,8 +69,7 @@ var rewriteAttributeForUser = function(id, callback, res) {
         var newUser = callback(doc);
         db.collection('users').save(newUser);
         db.close();
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(newUser,0,4));
+        respondWith(res, JSON.stringify(newUser,0,4));
       }
     });
   });
@@ -94,7 +102,7 @@ dispatcher.onGet("/user", function(req, res) {
   var callback = function(data) {
     if (data !== null) {
       res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(JSON.stringify(data,0,4));
+      respondWith(res, JSON.stringify(data,0,4));
     } else {
       var name = "Mathias Quintero";
       var user = {
@@ -124,8 +132,7 @@ dispatcher.onGet("/tickets", function(req, res) {
   var callback = function(data) {
     if (data !== null) {
       var tickets = data.tickets;
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(JSON.stringify(tickets,0,4));
+      respondWith(res, JSON.stringify(tickets,0,4));
     } else {
       res.writeHead(404, {'Content-Type': 'application/json'});
       res.end("No Tickets Available For User");
@@ -141,12 +148,7 @@ dispatcher.onGet("/watchlist", function(req, res) {
   var callback = function(data) {
     if (data !== null) {
       var movies = data.watchlist;
-      res.writeHead(200, {'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-      });
-      res.end(JSON.stringify(movies,0,4));
+      respondWith(res, JSON.stringify(movies,0,4));
     } else {
       res.writeHead(404, {'Content-Type': 'application/json'});
       res.end("No Watchlist Available For User. Check if user is registered!");
