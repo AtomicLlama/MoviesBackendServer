@@ -104,10 +104,8 @@ dispatcher.onGet("/user", function(req, res) {
       res.writeHead(200, {'Content-Type': 'application/json'});
       respondWith(res, JSON.stringify(data,0,4));
     } else {
-      var name = "Mathias Quintero";
       var user = {
         "facebookID": id,
-        "name": name,
         "tickets": [],
         "notifyOnWatchList": true,
         "notifyOnSubscription": true,

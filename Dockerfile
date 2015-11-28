@@ -1,4 +1,4 @@
-FROM node
-EXPORT 80
+FROM node:on-build
+EXPORT 8080
 RUN npm install
 CMD npm start
