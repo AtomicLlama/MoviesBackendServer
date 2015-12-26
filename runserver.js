@@ -6,6 +6,8 @@ var http = require('http');
 var dispatcher = require('httpdispatcher');
 var url = require('url');
 var ObjectId = require('mongodb').ObjectID;
+var Showtimes = require('showtimes');
+var request = require('request');
 
 // var localtunnel = require('localtunnel');
 //
@@ -155,6 +157,75 @@ dispatcher.onGet("/watchlist", function(req, res) {
   isUserRegistered(id, callback);
 });
 
+dispatcher.onGet("/showtimes", function(req,res) {
+  var queryObject = url.parse(req.url, true);
+  var query = queryObject.query;
+  var lat = query.lat;
+  var lon = query.lon;
+  var movie = query.movie;
+  var timesAPI = new Showtimes(lat + "," + lon, {});
+  try {
+    request("https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles?api_key=18ec732ece653360e23d5835670c47a0",function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var alternatives = JSON.parse(body).titles;
+        var names = alternatives.map(function (item) {
+          return item.title;
+        });
+        request("https://api.themoviedb.org/3/movie/" + movie + "?api_key=18ec732ece653360e23d5835670c47a0",function (error, response, body) {
+          names.push(JSON.parse(body).original_title);
+          var allowed = names.reduce(function(array, title) {
+            return array.concat(title.split(": "));
+          },[]);
+          timesAPI.getTheaters(function(err, response) {
+            if (err === null) {
+              var theatresShowingMovie = response.filter(function(theatre) {
+                for (var j in theatre.movies) {
+                  var item = theatre.movies[j];
+                  var namesForMovie = item.name.split(": ").map(function(item) {
+                    return item.replace(/ *\([^)]*\) */g, "");
+                  });
+                  for (var i in namesForMovie) {
+                    if (allowed.indexOf(namesForMovie[i]) > -1) {
+                      return true;
+                    }
+                  }
+                }
+              });
+              var returnableResponse = theatresShowingMovie.map(function (theatre) {
+                for (var j in theatre.movies) {
+                  var item = theatre.movies[j];
+                  var namesForMovie = item.name.split(": ").map(function(item) {
+                    return item.replace(/ *\([^)]*\) */g, "");
+                  });
+                  for (var i in namesForMovie) {
+                    if (allowed.indexOf(namesForMovie[i]) > -1) {
+                      return {
+                        name: theatre.name,
+                        address: theatre.address,
+                        showtimes: item.showtimes,
+                        film: item.name
+                      };
+                    }
+                  }
+                }
+              });
+              if (err === null && returnableResponse.length > 0) {
+                respondWith(res, JSON.stringify(returnableResponse,0,4));
+              } else {
+                res.writeHead(404, {'Content-Type': 'application/json'});
+                res.end("No theatres");
+              }
+            }
+          });
+        });
+      }
+    });
+  } catch(err) {
+    res.writeHead(404, {'Content-Type': 'application/json'});
+    res.end("No theatres");
+  }
+});
+
 dispatcher.onPost("/language", function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
@@ -250,6 +321,8 @@ dispatcher.onPost("/watchlist", function(req, res) {
     res.end("You need to specify what setting to add through the query.");
   }
 });
+
+
 
 
 console.log('Server running at http://127.0.0.1:80/');

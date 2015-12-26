@@ -5,39 +5,42 @@
   "author": "Totally Awesome Source Code",
   "contributors": [
     {
-    "name": "Mathias Quintero",
-    "email": "mathias.quintero@tum.de"
+      "name": "Mathias Quintero",
+      "email": "mathias.quintero@tum.de"
     },
-    {"name": "Andrei Costinescu",
-    "email": "andrei.costinescu@tum.de"
+    {
+      "name": "Andrei Costinescu",
+      "email": "andrei.costinescu@tum.de"
     },
-    {"name": "Joonas Palm",
-    "email": "joonas.palm@tum.de"
+    {
+      "name": "Joonas Palm",
+      "email": "joonas.palm@tum.de"
     }
   ],
   "bin": {
-  "module-name": "./bin/module-name"
-},
+    "module-name": "./bin/module-name"
+  },
   "scripts": {
     "start": "node runserver.js"
   },
   "main": "runserver.js",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/awesomesourcecode/MoviesBackendServer"
-},
+    "type": "git",
+    "url": "https://github.com/awesomesourcecode/MoviesBackendServer"
+  },
   "bugs": {
-  "url": "https://github.com/awesomesourcecode/MoviesBackendServer/issues"
-},
+    "url": "https://github.com/awesomesourcecode/MoviesBackendServer/issues"
+  },
   "keywords": [
-  "movies",
-  "app",
-  "stuff",
-  "awesome"
-],
+    "movies",
+    "app",
+    "stuff",
+    "awesome"
+  ],
   "dependencies": {
     "httpdispatcher": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "showtimes": "^2.1.0"
   },
   "preferGlobal": true,
   "private": true,
