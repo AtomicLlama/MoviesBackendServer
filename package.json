@@ -40,7 +40,7 @@
   "dependencies": {
     "httpdispatcher": "*",
     "mongodb": "*",
-    "showtimes": "^2.1.0"
+    "showtimes": "*"
   },
   "preferGlobal": true,
   "private": true,
