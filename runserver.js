@@ -181,9 +181,7 @@ dispatcher.onGet("/showtimes", function(req,res) {
               var theatresShowingMovie = response.filter(function(theatre) {
                 for (var j in theatre.movies) {
                   var item = theatre.movies[j];
-                  var namesForMovie = item.name.split(": ").map(function(item) {
-                    return item.replace(/ *\([^)]*\) */g, "");
-                  });
+                  var namesForMovie = item.name.split(": ");
                   for (var i in namesForMovie) {
                     if (allowed.indexOf(namesForMovie[i]) > -1) {
                       return true;
@@ -191,24 +189,27 @@ dispatcher.onGet("/showtimes", function(req,res) {
                   }
                 }
               });
-              var returnableResponse = theatresShowingMovie.map(function (theatre) {
-                for (var j in theatre.movies) {
-                  var item = theatre.movies[j];
-                  var namesForMovie = item.name.split(": ").map(function(item) {
-                    return item.replace(/ *\([^)]*\) */g, "");
-                  });
+              var returnableResponse = theatresShowingMovie.reduce(function (array,theatre) {
+                var theatreShowings = [];
+                var movies = theatre.movies.filter(function(item) {
+                  var namesForMovie = item.name.split(": ");
                   for (var i in namesForMovie) {
                     if (allowed.indexOf(namesForMovie[i]) > -1) {
-                      return {
-                        name: theatre.name,
-                        address: theatre.address,
-                        showtimes: item.showtimes,
-                        film: item.name
-                      };
+                      return true;
                     }
                   }
-                }
-              });
+                  return false;
+                });
+                var stuff = movies.map(function(item) {
+                  return {
+                    name: theatre.name,
+                    address: theatre.address,
+                    showtimes: item.showtimes,
+                    film: item.name
+                  };
+                });
+                return array.concat(stuff);
+              },[]);
               if (err === null && returnableResponse.length > 0) {
                 respondWith(res, JSON.stringify(returnableResponse,0,4));
               } else {
