@@ -163,7 +163,7 @@ dispatcher.onGet("/showtimes", function(req,res) {
   var lat = query.lat;
   var lon = query.lon;
   var movie = query.movie;
-  var timesAPI = new Showtimes(lon + "," + lat, {});
+  var timesAPI = new Showtimes(lat + "," + lon, {});
   try {
     request("https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles?api_key=18ec732ece653360e23d5835670c47a0",function (error, response, body) {
       if (!error && response.statusCode == 200) {
