@@ -177,14 +177,18 @@ dispatcher.onGet("/showtimes", function(req,res) {
         request("https://api.themoviedb.org/3/movie/" + movie + "?api_key=18ec732ece653360e23d5835670c47a0",function (error, response, body) {
           names.push(JSON.parse(body).original_title);
           var allowed = names.reduce(function(array, title) {
-            return array.concat(title.split(": "));
+            return array.concat(title.split(": ").reduce(function(arr,item) {
+              return arr.concat(item.split(" - "));
+            },[]));
           },[]);
           timesAPI.getTheaters(function(err, response) {
             if (err === null) {
               var theatresShowingMovie = response.filter(function(theatre) {
                 for (var j in theatre.movies) {
                   var item = theatre.movies[j];
-                  var namesForMovie = item.name.split(": ");
+                  var namesForMovie = item.name.split(": ").reduce(function(arr,item) {
+                    return arr.concat(item.split(" - "));
+                  },[]);
                   for (var i in namesForMovie) {
                     if (allowed.indexOf(namesForMovie[i]) > -1) {
                       return true;
@@ -195,7 +199,9 @@ dispatcher.onGet("/showtimes", function(req,res) {
               var returnableResponse = theatresShowingMovie.reduce(function (array,theatre) {
                 var theatreShowings = [];
                 var movies = theatre.movies.filter(function(item) {
-                  var namesForMovie = item.name.split(": ");
+                  var namesForMovie = item.name.split(": ").reduce(function(arr,item) {
+                    return arr.concat(item.split(" - "));
+                  },[]);
                   for (var i in namesForMovie) {
                     if (allowed.indexOf(namesForMovie[i]) > -1) {
                       return true;
