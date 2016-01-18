@@ -26,10 +26,10 @@
   "main": "runserver.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/awesomesourcecode/MoviesBackendServer"
+    "url": "https://github.com/AtomicLlama/MoviesBackendServer"
   },
   "bugs": {
-    "url": "https://github.com/awesomesourcecode/MoviesBackendServer/issues"
+    "url": "https://github.com/AtomicLlama/MoviesBackendServer/issues"
   },
   "keywords": [
     "movies",
