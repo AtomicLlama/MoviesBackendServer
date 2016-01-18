@@ -102,9 +102,17 @@ dispatcher.onGet("/user", function(req, res) {
   var id = query.userid;
   console.log("Query ID = " + id);
   var callback = function(data) {
+    var map = function(user) {
+      return {
+        "notifyOnWatchList": user.notifyOnWatchList,
+        "notifyOnSubscription": user.notifyOnSubscription,
+        "maxDistanceForCinema": user.maxDistanceForCinema,
+        "preferredLanguageSetting": user.preferredLanguageSetting
+      };
+    }
     if (data !== null) {
       res.writeHead(200, {'Content-Type': 'application/json'});
-      respondWith(res, JSON.stringify(data,0,4));
+      respondWith(res, JSON.stringify(map(data),0,4));
     } else {
       var user = {
         "facebookID": id,
@@ -117,7 +125,7 @@ dispatcher.onGet("/user", function(req, res) {
       };
       var success = function(response) {
         res.writeHead(response !== user ? 200 : 501, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(response,0,4));
+        res.end(JSON.stringify(map(response),0,4));
       };
       registerUser(user,success);
     }
