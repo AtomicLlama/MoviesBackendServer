@@ -38,7 +38,7 @@
     "awesome"
   ],
   "dependencies": {
-    "basic-auth": "^1.0.3",
+    "basic-auth": "*",
     "httpdispatcher": "*",
     "mongodb": "*",
     "request": "*",
