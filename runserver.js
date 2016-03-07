@@ -10,14 +10,14 @@ var auth = require('basic-auth');
 
 // Tunneling
 
-var localtunnel = require('localtunnel');
-var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
-    if (err === null ) {
-      console.log("New Tunnel Assigned!: " + tunnel.url);
-    } else {
-      console.log("Error:  " + err);
-    }
-});
+// var localtunnel = require('localtunnel');
+// var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
+//     if (err === null ) {
+//       console.log("New Tunnel Assigned!: " + tunnel.url);
+//     } else {
+//       console.log("Error:  " + err);
+//     }
+// });
 
 // Allowing Delete and Put
 
