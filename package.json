@@ -2,7 +2,7 @@
   "name": "movies-backend-server",
   "version": "0.0.1",
   "description": "Logic behind our backend server",
-  "author": "Totally Awesome Source Code",
+  "author": "Atomic Llama",
   "contributors": [
     {
       "name": "Mathias Quintero",
@@ -39,7 +39,6 @@
   ],
   "dependencies": {
     "basic-auth": "^1.0.3",
-    "express": "^4.13.4",
     "httpdispatcher": "*",
     "mongodb": "*",
     "request": "*",

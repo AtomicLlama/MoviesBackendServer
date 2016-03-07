@@ -8,17 +8,6 @@ var url = require('url');
 var request = require('request');
 var auth = require('basic-auth');
 
-// Tunneling
-
-// var localtunnel = require('localtunnel');
-// var tunnel = localtunnel(8080,{"port":8080, "subdomain": "movies"}, function(err, tunnel) {
-//     if (err === null ) {
-//       console.log("New Tunnel Assigned!: " + tunnel.url);
-//     } else {
-//       console.log("Error:  " + err);
-//     }
-// });
-
 // Allowing Delete and Put
 
 dispatcher.listeners.delete = [];
@@ -35,6 +24,7 @@ var notifyWatchPost = require('./data/notifyWatchPost.js');
 var notifySubPost = require('./data/notifySubPost.js');
 var watchlistPost = require('./data/watchlistPost.js');
 var watchlistDelete = require('./data/watchlistDelete.js');
+var showtimeGet = require('./data/showtimeGet.js');
 
 // Main
 
@@ -48,18 +38,18 @@ dispatcher.onGet("/", function(req, res) {
 dispatcher.onGet("/user", userGet);
 dispatcher.onGet("/tickets", ticketsGet);
 dispatcher.onGet("/watchlist", watchlistGet);
-dispatcher.onGet("/showtimes", function(req,res) {
-  var times = require('showtimeGet.js');
-  times(req,res);
-});
+dispatcher.onGet("/showtimes", showtimeGet);
 
 // Post Requests
 
-dispatcher.onPost("/language", languagePost);
-dispatcher.onPost("/distance", distancePost);
-dispatcher.onPost("/notifyWatch", notifyWatchPost);
-dispatcher.onPost("/notifySub", notifySubPost);
 dispatcher.onPost("/watchlist", watchlistPost);
+
+// Put Requests
+
+dispatcher.on("put","/language", languagePost);
+dispatcher.on("put","/distance", distancePost);
+dispatcher.on("put","/notifyWatch", notifyWatchPost);
+dispatcher.on("put","/notifySub", notifySubPost);
 
 // Delete Requests
 
