@@ -38,10 +38,12 @@
     "awesome"
   ],
   "dependencies": {
+    "basic-auth": "^1.0.3",
+    "express": "^4.13.4",
     "httpdispatcher": "*",
     "mongodb": "*",
-    "showtimes": "*",
-    "request": "*"
+    "request": "*",
+    "showtimes": "*"
   },
   "preferGlobal": true,
   "private": true,
