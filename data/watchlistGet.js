@@ -7,6 +7,7 @@ var watchlistGet = function(req, res) {
     var movies = data.watchlist;
     respondWith(res, JSON.stringify(movies,0,4));
   };
+  console.log("Request before: " + req);
   isUserRegistered(callback, req, res);
 };
 

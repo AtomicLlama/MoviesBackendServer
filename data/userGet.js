@@ -14,6 +14,7 @@ var userGet = function(req, res) {
     res.writeHead(200, {'Content-Type': 'application/json'});
     respondWith(res, JSON.stringify(map(data),0,4));
   };
+  console.log("Request before: " + req);
   isUserRegistered(callback, req, res);
 };
 
