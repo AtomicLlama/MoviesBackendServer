@@ -8,25 +8,29 @@ var isEmpty = require('./isEmpty.js');
 
 var rewriteAttributeForUser = function(req, callback, res) {
   var authdata = auth(req);
-  var id = authdata.name;
-  MongoClient.connect(mongoURL, function(err, db) {
-    db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
-      if (isEmpty(doc) || doc === null || err !== null) {
-        db.close();
-        res.writeHead(404, {'Content-Type': 'application/json'});
-        res.end("Wasn't able to rewrite it. Perhaps there is no user with that id");
-      } else {
-        if (verifyAuth(doc,req)) {
-          var newUser = callback(doc);
-          db.collection('users').save(newUser);
+  if (authdata) {
+    var id = authdata.name;
+    MongoClient.connect(mongoURL, function(err, db) {
+      db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
+        if (isEmpty(doc) || doc === null || err !== null) {
           db.close();
-          respondWith(res, JSON.stringify(newUser,0,4));
+          res.writeHead(404, {'Content-Type': 'application/json'});
+          res.end("Wasn't able to rewrite it. Perhaps there is no user with that id");
         } else {
-          accessDenied(res);
+          if (verifyAuth(doc,req)) {
+            var newUser = callback(doc);
+            db.collection('users').save(newUser);
+            db.close();
+            respondWith(res, JSON.stringify(newUser,0,4));
+          } else {
+            accessDenied(res);
+          }
         }
-      }
+      });
     });
-  });
+  } else {
+    accessDenied(res);
+  }
 };
 
 module.exports = rewriteAttributeForUser;
