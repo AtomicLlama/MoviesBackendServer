@@ -1,7 +1,7 @@
 var isUserRegistered = require('../util/isUserRegistered.js');
 var respondWith = require('../util/respondWith.js');
 
-var userGet = function(req,res) {
+var userGet = function(req, res) {
   var callback = function(data) {
     var map = function(user) {
       return {

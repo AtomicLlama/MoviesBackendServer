@@ -9,6 +9,7 @@ var registerUser = require('./registerUser.js');
 var isEmpty = require('./isEmpty.js');
 
 var isUserRegistered = function(callback, req, res) {
+  console.log(auth);
   var authdata = auth(req);
   console.log(authdata);
   var id = authdata.name;
