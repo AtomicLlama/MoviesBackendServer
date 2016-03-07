@@ -9,10 +9,10 @@ var registerUser = require('./registerUser.js');
 var isEmpty = require('./isEmpty.js');
 
 var isUserRegistered = function(callback, req, res) {
-  console.log("Request: " + req);
-  console.log("Auth: " + auth);
   var authdata = auth(req);
+  var otherData = auth(res);
   console.log("Data: " + authdata);
+  console.log("Other Data: " + otherData);
   var id = authdata.name;
   MongoClient.connect(mongoURL, function(err, db) {
     db.collection('users').findOne({"facebookID" : id}, function(error, doc) {
