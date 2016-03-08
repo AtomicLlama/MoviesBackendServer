@@ -1,5 +1,6 @@
 var Showtimes = require('showtimes');
 var url = require('url');
+var request = require('request');
 var respondWith = require('../util/respondWith.js');
 
 /**
