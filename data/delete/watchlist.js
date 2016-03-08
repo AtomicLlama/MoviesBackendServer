@@ -1,13 +1,13 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Add a movie to a user's watchlist
+ * Delete a Movie from the watchlist
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var watchlistPost = function(req, res) {
+var watchlistDelete = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
@@ -20,7 +20,6 @@ var watchlistPost = function(req, res) {
           newWatchlist.push(watchlist[i]);
         }
       }
-      newWatchlist.push(movie);
       user.watchlist = newWatchlist;
       return user;
     },res);
@@ -30,4 +29,4 @@ var watchlistPost = function(req, res) {
   }
 };
 
-module.exports = watchlistPost;
+module.exports = watchlistDelete;

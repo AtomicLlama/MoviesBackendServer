@@ -4,31 +4,12 @@
 
 var http = require('http');
 var dispatcher = require('httpdispatcher');
+var fs = require('fs');
 
 // Allowing Delete and Put
 
 dispatcher.listeners.delete = [];
 dispatcher.listeners.put = [];
-
-// Data Functions
-
-var userGet = require('./data/userGet.js');
-var ticketsGet = require('./data/ticketsGet.js');
-var watchlistGet = require('./data/watchlistGet.js');
-var subsGet = require('./data/subsGet.js');
-var languageGet = require('./data/languageGet.js');
-var languagePost = require('./data/languagePost.js');
-var distanceGet = require('./data/distanceGet.js');
-var distancePost = require('./data/distancePost.js');
-var notifyWatchGet = require('./data/notifyWatchGet.js');
-var notifyWatchPost = require('./data/notifyWatchPost.js');
-var notifySubGet = require('./data/notifySubGet.js');
-var notifySubPost = require('./data/notifySubPost.js');
-var watchlistPost = require('./data/watchlistPost.js');
-var subsPost = require('./data/subsPost.js');
-var watchlistDelete = require('./data/watchlistDelete.js');
-var subsDelete = require('./data/subsDelete.js');
-var showtimeGet = require('./data/showtimeGet.js');
 
 // Main
 
@@ -37,34 +18,22 @@ dispatcher.onGet("/", function(req, res) {
   res.end("Hello World!");
 });
 
-// Get Requests
+// Read all the supported methods from disk
 
-dispatcher.onGet("/user", userGet);
-dispatcher.onGet("/tickets", ticketsGet);
-dispatcher.onGet("/watchlist", watchlistGet);
-dispatcher.onGet("/subs", subsGet);
-dispatcher.onGet("/showtimes", showtimeGet);
-dispatcher.onGet("/laguage", languageGet);
-dispatcher.onGet("/distance", distanceGet);
-dispatcher.onGet("/notifySub", notifySubGet);
-dispatcher.onGet("/notifyWatch", notifyWatchGet);
+var data = fs.readFileSync('methods.json');
+data = JSON.parse(data);
 
-// Post Requests
+// Fetch function and add it to the dispatcher
 
-dispatcher.onPost("/watchlist", watchlistPost);
-dispatcher.onPost("/subs", subsPost);
-
-// Put Requests
-
-dispatcher.on("put","/language", languagePost);
-dispatcher.on("put","/distance", distancePost);
-dispatcher.on("put","/notifyWatch", notifyWatchPost);
-dispatcher.on("put","/notifySub", notifySubPost);
-
-// Delete Requests
-
-dispatcher.on("delete","/watchlist", watchlistDelete);
-dispatcher.on("delete","/subs", subsDelete);
+for (var i = 0; i < data.length; i++) {
+  var name = data[i].name;
+  var methods = data[i].methods;
+  for (var j = 0; j < methods.length; j++) {
+    var method = methods[j];
+    var func = require('./data/' + method + '/' + name + '.js');
+    dispatcher.on(method,'/' + name, func);
+  }
+}
 
 // Start
 

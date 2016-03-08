@@ -1,19 +1,19 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Update the notification on subscription setting for a user
+ * Update the distance setting for a user
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var notifyWatchPost = function(req, res) {
+var distancePost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var pref = query.pref !== "0";
+    var pref = query.pref;
     rewriteAttributeForUser(req, function(user){
-      user.notifyOnWatchList = pref;
+      user.maxDistanceForCinema = pref;
       return user;
     },res);
   } catch (e) {
@@ -22,4 +22,4 @@ var notifyWatchPost = function(req, res) {
   }
 };
 
-module.exports = notifyWatchPost;
+module.exports = distancePost;

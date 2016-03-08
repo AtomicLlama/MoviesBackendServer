@@ -1,5 +1,5 @@
-var findUser = require('../util/findUser.js');
-var respondWith = require('../util/respondWith.js');
+var findUser = require('../../util/findUser.js');
+var respondWith = require('../../util/respondWith.js');
 
 /**
  * Get the watchlist of a user

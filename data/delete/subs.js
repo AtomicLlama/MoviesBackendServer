@@ -1,26 +1,26 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Delete a Movie from the watchlist
+ * Remove a person from a user's subscriptions
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var watchlistDelete = function(req, res) {
+var subsDelete = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var movie = query.movie;
+    var person = query.person;
     rewriteAttributeForUser(req, function(user){
-      var watchlist = user.watchlist;
-      var newWatchlist = [];
-      for (var i = 0;i<watchlist.length;i++) {
-        if (watchlist[i] != movie) {
-          newWatchlist.push(watchlist[i]);
+      var list = user.subs || [];
+      var newList = [];
+      for (var i = 0;i<list.length;i++) {
+        if (list[i] != person) {
+          newList.push(list[i]);
         }
       }
-      user.watchlist = newWatchlist;
+      user.subs = newList;
       return user;
     },res);
   } catch (e) {
@@ -29,4 +29,4 @@ var watchlistDelete = function(req, res) {
   }
 };
 
-module.exports = watchlistDelete;
+module.exports = subsDelete;

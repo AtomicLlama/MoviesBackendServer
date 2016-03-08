@@ -1,19 +1,19 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Update the language setting for a user
+ * Update the notification on subscription setting for a user
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var languagePost = function(req, res) {
+var notifyWatchPost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var pref = query.pref;
+    var pref = query.pref !== "0";
     rewriteAttributeForUser(req, function(user){
-      user.preferredLanguageSetting = pref;
+      user.notifyOnWatchList = pref;
       return user;
     },res);
   } catch (e) {
@@ -22,4 +22,4 @@ var languagePost = function(req, res) {
   }
 };
 
-module.exports = languagePost;
+module.exports = notifyWatchPost;

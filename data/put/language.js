@@ -1,26 +1,19 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Remove a person from a user's subscriptions
+ * Update the language setting for a user
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var subsDelete = function(req, res) {
+var languagePost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var person = query.person;
+    var pref = query.pref;
     rewriteAttributeForUser(req, function(user){
-      var list = user.subs || [];
-      var newList = [];
-      for (var i = 0;i<list.length;i++) {
-        if (list[i] != person) {
-          newList.push(list[i]);
-        }
-      }
-      user.subs = newList;
+      user.preferredLanguageSetting = pref;
       return user;
     },res);
   } catch (e) {
@@ -29,4 +22,4 @@ var subsDelete = function(req, res) {
   }
 };
 
-module.exports = subsDelete;
+module.exports = languagePost;

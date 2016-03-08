@@ -1,19 +1,27 @@
 var url = require('url');
-var rewriteAttributeForUser = require('../util/rewriteUser.js');
+var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
- * Update the distance setting for a user
+ * Add a person to a user's subscriptions
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var distancePost = function(req, res) {
+var subsPost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var pref = query.pref;
+    var person = query.person;
     rewriteAttributeForUser(req, function(user){
-      user.maxDistanceForCinema = pref;
+      var list = user.subs || [];
+      var newList = [];
+      for (var i = 0;i<list.length;i++) {
+        if (list[i] != person) {
+          newList.push(list[i]);
+        }
+      }
+      newList.push(person);
+      user.subs = newList;
       return user;
     },res);
   } catch (e) {
@@ -22,4 +30,4 @@ var distancePost = function(req, res) {
   }
 };
 
-module.exports = distancePost;
+module.exports = subsPost;
