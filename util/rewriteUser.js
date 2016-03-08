@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
+var mongoURL = require('./DBUrl.js');
 var respondWith = require('./respondWith.js');
 var accessDenied = require('./accessDenied.js');
 var verifyAuth = require('./authentification.js');

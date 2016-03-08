@@ -1,7 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var auth = require('basic-auth');
-var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
-
+var mongoURL = require('./DBUrl.js');
 var respondWith = require('./respondWith.js');
 var accessDenied = require('./accessDenied.js');
 var verifyAuth = require('./authentification.js');
@@ -10,7 +9,6 @@ var isEmpty = require('./isEmpty.js');
 
 var isUserRegistered = function(callback, req, res) {
   var authdata = auth(req);
-  console.log("Authentification: " + authdata);
   if (authdata) {
     var id = authdata.name;
     MongoClient.connect(mongoURL, function(err, db) {
