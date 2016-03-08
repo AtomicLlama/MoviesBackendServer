@@ -2,7 +2,7 @@ var fs = require('fs');
 
 /**
  * Return url of the DB
- * @return {[type]} [description]
+ * @return {String} [url of DB]
  */
 var getUrl = function() {
   var data = fs.readFileSync('database.json');
