@@ -14,15 +14,9 @@ var subsDelete = function(req, res) {
     var person = query.person;
     rewriteAttributeForUser(req, function(user){
       var list = user.subs || [];
-      var newList = [];
-      for (var i = 0;i<list.length;i++) {
-        if (list[i] != person) {
-          newList.push(list[i]);
-        }
-      }
-      user.subs = newList;
+      user.subs = list.filter(function(x) { return x !== person; });
       return user;
-    },res);
+    }, res);
   } catch (e) {
     res.writeHead(501, {'Content-Type': 'application/json'});
     res.end("You need to specify what setting to add through the query.");

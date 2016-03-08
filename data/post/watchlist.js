@@ -13,16 +13,14 @@ var watchlistPost = function(req, res) {
   try {
     var movie = query.movie;
     rewriteAttributeForUser(req, function(user){
-      var watchlist = user.watchlist;
-      var newWatchlist = [];
-      for (var i = 0;i<watchlist.length;i++) {
-        if (watchlist[i] != movie) {
-          newWatchlist.push(watchlist[i]);
-        }
+      var list = user.watchlist;
+      if (list.indexOf(movie) < 0) {
+        return user;
+      } else {
+        list.push(movie);
+        user.watchlist = list;
+        return user;
       }
-      newWatchlist.push(movie);
-      user.watchlist = newWatchlist;
-      return user;
     },res);
   } catch (e) {
     res.writeHead(501, {'Content-Type': 'application/json'});

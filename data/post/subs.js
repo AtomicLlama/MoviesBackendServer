@@ -12,17 +12,15 @@ var subsPost = function(req, res) {
   var query = queryObject.query;
   try {
     var person = query.person;
-    rewriteAttributeForUser(req, function(user){
+    rewriteAttributeForUser(req, function(user) {
       var list = user.subs || [];
-      var newList = [];
-      for (var i = 0;i<list.length;i++) {
-        if (list[i] != person) {
-          newList.push(list[i]);
-        }
+      if (list.indexOf(person) < 0) {
+        return user;
+      } else {
+        list.push(person);
+        user.subs = list;
+        return user;
       }
-      newList.push(person);
-      user.subs = newList;
-      return user;
     },res);
   } catch (e) {
     res.writeHead(501, {'Content-Type': 'application/json'});

@@ -13,14 +13,8 @@ var watchlistDelete = function(req, res) {
   try {
     var movie = query.movie;
     rewriteAttributeForUser(req, function(user){
-      var watchlist = user.watchlist;
-      var newWatchlist = [];
-      for (var i = 0;i<watchlist.length;i++) {
-        if (watchlist[i] != movie) {
-          newWatchlist.push(watchlist[i]);
-        }
-      }
-      user.watchlist = newWatchlist;
+      var list = user.watchlist;
+      user.watchlist = list.filter(function(x) { return x !== movie; });
       return user;
     },res);
   } catch (e) {
