@@ -6,7 +6,14 @@ var verifyAuth = require('./authentification.js');
 var auth = require('basic-auth');
 var isEmpty = require('./isEmpty.js');
 
-var rewriteAttributeForUser = function(req, callback, res) {
+/**
+ * Will rewrite any user using a mapping function
+ * @param  {Request}    req      request
+ * @param  {Function}   callback mapping function for the user
+ * @param  {Response}   res      response
+ * @return {void}                nothing
+ */
+var rewriteUser = function(req, callback, res) {
   var authdata = auth(req);
   if (authdata) {
     var id = authdata.name;
@@ -33,4 +40,4 @@ var rewriteAttributeForUser = function(req, callback, res) {
   }
 };
 
-module.exports = rewriteAttributeForUser;
+module.exports = rewriteUser;

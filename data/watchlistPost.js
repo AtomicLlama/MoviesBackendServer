@@ -1,6 +1,12 @@
 var url = require('url');
 var rewriteAttributeForUser = require('../util/rewriteUser.js');
 
+/**
+ * Add a movie to a user's watchlist
+ * @param  {Request}  req  Request
+ * @param  {Response} res  Response
+ * @return {void}          nothing
+ */
 var watchlistPost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;

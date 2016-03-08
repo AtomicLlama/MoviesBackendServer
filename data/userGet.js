@@ -1,6 +1,12 @@
-var isUserRegistered = require('../util/isUserRegistered.js');
+var findUser = require('../util/findUser.js');
 var respondWith = require('../util/respondWith.js');
 
+/**
+ * Get the settings for a user
+ * @param  {Request}  req  Request
+ * @param  {Response} res  Response
+ * @return {void}          nothing
+ */
 var userGet = function(req, res) {
   var callback = function(data) {
     var map = function(user) {
@@ -14,7 +20,7 @@ var userGet = function(req, res) {
     res.writeHead(200, {'Content-Type': 'application/json'});
     respondWith(res, JSON.stringify(map(data),0,4));
   };
-  isUserRegistered(callback, req, res);
+  findUser(callback, req, res);
 };
 
 module.exports = userGet;

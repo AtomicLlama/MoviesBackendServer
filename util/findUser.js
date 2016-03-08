@@ -7,7 +7,14 @@ var verifyAuth = require('./authentification.js');
 var registerUser = require('./registerUser.js');
 var isEmpty = require('./isEmpty.js');
 
-var isUserRegistered = function(callback, req, res) {
+/**
+ * will find a User in the database
+ * @param  {Function} callback callback on what to do with the user
+ * @param  {[Request]}    req     request
+ * @param  {[Response]}   res     response
+ * @return {[void]}               void
+ */
+var findUser = function(callback, req, res) {
   var authdata = auth(req);
   if (authdata) {
     var id = authdata.name;
@@ -31,4 +38,4 @@ var isUserRegistered = function(callback, req, res) {
   }
 };
 
-module.exports = isUserRegistered;
+module.exports = findUser;

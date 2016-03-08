@@ -1,6 +1,12 @@
 var MongoClient = require('mongodb').MongoClient;
 var mongoURL = 'mongodb://root:welovepatterns@ds047692.mongolab.com:47692/production';
 
+/**
+ * Register a user with the id
+ * @param  {String}   id       id of the new user
+ * @param  {Function} callback function to be called after registration
+ * @return {void}              nothing
+ */
 var registerUser = function(id, callback) {
   var user = {
     "facebookID": id,

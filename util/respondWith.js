@@ -1,3 +1,10 @@
+
+/**
+ * Respond to a request with an item
+ * @param  {Response} res  response object
+ * @param  {Object}   item item you want to respond to
+ * @return {void}          nothing
+ */
 var respondWith = function(res, item) {
   res.writeHead(200, {'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',

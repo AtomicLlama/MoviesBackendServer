@@ -2,6 +2,12 @@ var Showtimes = require('showtimes');
 var url = require('url');
 var respondWith = require('../util/respondWith.js');
 
+/**
+ * Get showtimes for a specific movie in specific coordinates
+ * @param  {Request}  req  Request
+ * @param  {Response} res  Response
+ * @return {void}          nothing
+*/
 var showtimeGet = function(req,res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;

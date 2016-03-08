@@ -1,6 +1,12 @@
 var url = require('url');
 var rewriteAttributeForUser = require('../util/rewriteUser.js');
 
+/**
+ * Update the notification on subscription setting for a user
+ * @param  {Request}  req  Request
+ * @param  {Response} res  Response
+ * @return {void}          nothing
+ */
 var notifyWatchPost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
