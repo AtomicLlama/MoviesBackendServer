@@ -4,9 +4,6 @@
 
 var http = require('http');
 var dispatcher = require('httpdispatcher');
-var url = require('url');
-var request = require('request');
-var auth = require('basic-auth');
 
 // Allowing Delete and Put
 
@@ -18,9 +15,13 @@ dispatcher.listeners.put = [];
 var userGet = require('./data/userGet.js');
 var ticketsGet = require('./data/ticketsGet.js');
 var watchlistGet = require('./data/watchlistGet.js');
+var languageGet = require('./data/languageGet.js');
 var languagePost = require('./data/languagePost.js');
+var distanceGet = require('./data/distanceGet.js');
 var distancePost = require('./data/distancePost.js');
+var notifyWatchGet = require('./data/notifyWatchGet.js');
 var notifyWatchPost = require('./data/notifyWatchPost.js');
+var notifySubGet = require('./data/notifySubGet.js');
 var notifySubPost = require('./data/notifySubPost.js');
 var watchlistPost = require('./data/watchlistPost.js');
 var watchlistDelete = require('./data/watchlistDelete.js');
@@ -39,6 +40,10 @@ dispatcher.onGet("/user", userGet);
 dispatcher.onGet("/tickets", ticketsGet);
 dispatcher.onGet("/watchlist", watchlistGet);
 dispatcher.onGet("/showtimes", showtimeGet);
+dispatcher.onGet("/laguage", languageGet);
+dispatcher.onGet("/distance", distanceGet);
+dispatcher.onGet("/notifySub", notifySubGet);
+dispatcher.onGet("/notifyWatch", notifyWatchGet);
 
 // Post Requests
 

@@ -11,9 +11,17 @@ var watchlistPost = function(req, res) {
   var queryObject = url.parse(req.url, true);
   var query = queryObject.query;
   try {
-    var pref = query.pref !== "0";
+    var movie = query.movie;
     rewriteAttributeForUser(req, function(user){
-      user.notifyOnWatchList = pref;
+      var watchlist = user.watchlist;
+      var newWatchlist = [];
+      for (var i = 0;i<watchlist.length;i++) {
+        if (watchlist[i] != movie) {
+          newWatchlist.push(watchlist[i]);
+        }
+      }
+      newWatchlist.push(movie);
+      user.watchlist = newWatchlist;
       return user;
     },res);
   } catch (e) {
