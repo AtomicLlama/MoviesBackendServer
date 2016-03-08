@@ -13,7 +13,7 @@ var subsPost = function(req, res) {
   try {
     var person = query.person;
     rewriteAttributeForUser(req, function(user){
-      var list = user.subs;
+      var list = user.subs || [];
       var newList = [];
       for (var i = 0;i<list.length;i++) {
         if (list[i] != person) {
