@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
+var notFound = require('./notFound.js');
 
 var getWebFile = function(request,response,callback) {
   var uri = "www" + url.parse(request.url).pathname;
@@ -10,9 +11,7 @@ var getWebFile = function(request,response,callback) {
       try {
         callback(request,response);
       } catch(e) {
-        response.writeHead(500, {"Content-Type": "text/plain"});
-        response.write(e + "\n");
-        response.end();
+        notFound(response);
       }
     } else {
       if (fs.statSync(filename).isDirectory()) filename += '/index.html';
