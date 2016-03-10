@@ -5,18 +5,12 @@
 var http = require('http');
 var dispatcher = require('httpdispatcher');
 var fs = require('fs');
+var getWebFile = require('./util/getWebFile.js');
 
 // Allowing Delete and Put
 
 dispatcher.listeners.delete = [];
 dispatcher.listeners.put = [];
-
-// Main
-
-dispatcher.onGet("/", function(req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end("Hello World!");
-});
 
 // Read all the supported methods from disk
 
@@ -40,7 +34,7 @@ for (var i = 0; i < data.length; i++) {
 var port = process.env.PORT || 8080;
 
 http.createServer(function (request, response) {
-  dispatcher.dispatch(request, response);
+  getWebFile(request,response,dispatcher.dispatch);
 }).listen(port);
 
 console.log('Server running at http://127.0.0.1:' + port);
