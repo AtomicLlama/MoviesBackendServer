@@ -34,7 +34,10 @@ for (var i = 0; i < data.length; i++) {
 var port = process.env.PORT || 8080;
 
 http.createServer(function (request, response) {
-  getWebFile(request,response,dispatcher.dispatch);
+  var callback = function(req,res) {
+    dispatcher.dispatch(req,res);
+  };
+  getWebFile(request,response,callback);
 }).listen(port);
 
 console.log('Server running at http://127.0.0.1:' + port);
