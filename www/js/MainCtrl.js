@@ -2,7 +2,7 @@ var app = angular.module('movies', []);
 
 app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
 
-  
+
 
   $scope.user = {
     name: "",
@@ -21,7 +21,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
   $scope.inTheatres = [];
 
   var addActorsForMovie = function(movie) {
-    var creditsUrl = "http://api.themoviedb.org/3/movie/" + movie.id + "/credits?api_key=18ec732ece653360e23d5835670c47a0";
+    var creditsUrl = "https://api.themoviedb.org/3/movie/" + movie.id + "/credits?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(creditsUrl).then(function (response) {
       var actorArray = response.data.cast;
       for (var a=0;a<Math.min(actorArray.length,5);a++) {
@@ -40,7 +40,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
   };
 
   var getTrailerForMovie = function(movie) {
-    var url = "http://api.themoviedb.org/3/movie/" + movie.id + "/videos?api_key=18ec732ece653360e23d5835670c47a0";
+    var url = "https://api.themoviedb.org/3/movie/" + movie.id + "/videos?api_key=18ec732ece653360e23d5835670c47a0";
 
     $http.get(url).then(function(response) {
       var trailer = response.data.results[0].key;
@@ -107,7 +107,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
       canceller.resolve();
       $scope.showWatchlist();
     } else {
-      var url = "http://api.themoviedb.org/3/search/multi?api_key=18ec732ece653360e23d5835670c47a0&query=" + text;
+      var url = "https://api.themoviedb.org/3/search/multi?api_key=18ec732ece653360e23d5835670c47a0&query=" + text;
       request = $http.get(url);
       request.then(function(response) {
         var array = response.data.results;
@@ -147,7 +147,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
   };
 
   var addMovieFromID = function(id) {
-    var url = "http://api.themoviedb.org/3/movie/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
+    var url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
       var item = response.data;
       var shorterTitle;
@@ -181,7 +181,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, $sce) {
     $('.button-collapse').sideNav('hide');
     $scope.displayAbleMovies.length = 0;
     $scope.searchText = "Movies with: " + name;
-    var url = "http://api.themoviedb.org/3/person/" + id + "/movie_credits?api_key=18ec732ece653360e23d5835670c47a0";
+    var url = "https://api.themoviedb.org/3/person/" + id + "/movie_credits?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
       var array = response.data.cast;
       for (var i = 0; i < Math.min(array.length,20); i++) {
