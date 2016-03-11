@@ -52,6 +52,12 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     });
   };
 
+  $rootScope.classForMovieCard = function() {
+    var width = document.getElementById('Featured').offsetWidth;
+    if (width < 600) return "col s12";
+    return "col s4";
+  };
+
   $rootScope.logOut = function() {
     $rootScope.user.loggedIn = false;
   };
