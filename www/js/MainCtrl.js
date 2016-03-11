@@ -1,9 +1,8 @@
 app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$window) {
 
   $rootScope.stack = [];
-
   $rootScope.fullStack = [];
-
+  $rootScope.searchText = "";
   $rootScope.user = {
     name: "",
     id: "",
