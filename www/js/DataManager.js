@@ -33,6 +33,17 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     return movie;
   };
 
+  var generatePersonObject = function(currentActor) {
+    var actor = knownPeople[currentActor.id] || {
+      name: currentActor.name,
+      id: currentActor.id,
+      headshot: "https://image.tmdb.org/t/p/w185" + currentActor.profile_path,
+      movies: []
+    };
+    knownPeople[actor.id] = actor;
+    return actor;
+  };
+
   var addMovieFromID = function(id, callback) {
     var url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
@@ -89,14 +100,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         var actorArray = response.data.cast;
         for (var a=0;a<Math.min(actorArray.length,5);a++) {
           var currentActor = actorArray[a];
-          var actor = {
-            name: currentActor.name,
-            id: currentActor.id,
-            headshot: "https://image.tmdb.org/t/p/w185" + currentActor.profile_path,
-            movies: []
-          };
-          movie.actors.push({actor: actor, role: currentActor.character});
-          knownPeople[actor.id] = actor;
+          movie.actors.push({actor: generatePersonObject(currentActor), role: currentActor.character});
         }
       }, function(err) {
         console.log(err);

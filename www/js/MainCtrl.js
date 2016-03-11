@@ -13,8 +13,6 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   $rootScope.search = function(text) {
     if (text === undefined) {
       $location.path("/");
-    } else if (text.toLowerCase() === "my watchlist".toLowerCase() && $scope.user.loggedIn) {
-
     } else {
       var path = $location.$$path;
       path = path.split("/");
@@ -23,7 +21,6 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
       } else {
         $location.path("/search/" + text);
       }
-
     }
   };
 
@@ -46,7 +43,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
             console.log('User cancelled login or did not fully authorize.');
         }
     }, {
-        scope: 'publish_stream,email'
+        scope: "public_profile,email,user_friends"
     });
   };
 
