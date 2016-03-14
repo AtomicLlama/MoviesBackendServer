@@ -32,22 +32,24 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     $location.path("/person/" + person.id);
   };
 
+  var login = function(response) {
+    if (response.authResponse) {
+        console.log(response.authResponse);
+        $rootScope.user.id = response.authResponse.userID; //get FB UID
+        $rootScope.user.loggedIn = true;
+        FB.api('/me/picture', function(response) {
+            $rootScope.user.image = response.data.url;
+        });
+        FB.api('/me',function(response) {
+          $rootScope.user.name = response.name;
+        });
+    } else {
+        console.log('User cancelled login or did not fully authorize.');
+    }
+  };
+
   $rootScope.logIn = function() {
-    FB.login(function(response) {
-        if (response.authResponse) {
-            console.log(response.authResponse);
-            $rootScope.user.id = response.authResponse.userID; //get FB UID
-            $rootScope.user.loggedIn = true;
-            FB.api('/me/picture', function(response) {
-                $rootScope.user.image = response.data.url;
-            });
-            FB.api('/me',function(response) {
-              $rootScope.user.name = response.name;
-            });
-        } else {
-            console.log('User cancelled login or did not fully authorize.');
-        }
-    }, {
+    FB.login(login, {
         scope: "public_profile,email,user_friends"
     });
   };
@@ -69,7 +71,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
 
   FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
-      $rootScope.login();
+      login(response);
     }
   });
 
