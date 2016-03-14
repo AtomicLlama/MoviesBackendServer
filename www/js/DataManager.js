@@ -80,16 +80,24 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     });
   };
 
-  var getWatchlist = function(user) {
-    var url = "https://moviesbackend.herokuapp.com/watchlist?userid=" + user;
-    $http.get(url).then(function(response) {
-      var array = response.data;
+  var doBackendRequest = function(method,user,callback) {
+    $http.defaults.headers.common.Authorization = 'Basic ' +  window.btoa(user + ":" + user);
+    $http.get(method).then(function(response) {
+      $http.defaults.headers.common.Authorization = undefined;
+      var data = response.data;
+      callback(data);
+    }, function(err) {
+      console.log(err);
+    });
+  };
+
+  var getWatchlist = function(user, callback) {
+    doBackendRequest("watchlist",user,function(array) {
       var handler = function(movie) { watchlist.push(movie); };
       for (var i = 0; i < array.length; i++) {
         addMovieFromID(array[i], handler);
       }
-    }, function(err) {
-      console.log(err);
+      callback(watchlist);
     });
   };
 
@@ -167,6 +175,13 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     },
     search: function(term,callback) {
       search(term,callback);
+    },
+    getWatchlist: function(user, callback) {
+      if (watchlist.length !== 0) {
+        callback(watchlist);
+      } else {
+        getWatchlist(user,callback);
+      }
     },
     getMovie: function(id, callback) {
       if (knownMovies[id]) {

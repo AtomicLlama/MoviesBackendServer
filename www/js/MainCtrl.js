@@ -52,6 +52,11 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     });
   };
 
+  $rootScope.dimensionsForProfilePicture = function() {
+    var height = document.getElementById('logo').offsetHeight;
+    return height - 20;
+  };
+
   $rootScope.classForMovieCard = function() {
     var width = document.getElementById('Featured').offsetWidth;
     if (width < 600) return "col s12";
@@ -61,5 +66,11 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   $rootScope.logOut = function() {
     $rootScope.user.loggedIn = false;
   };
+
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      $rootScope.login();
+    }
+  });
 
 });

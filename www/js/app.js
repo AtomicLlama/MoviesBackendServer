@@ -20,7 +20,7 @@ app.config(['$routeProvider', function($routeProvider) {
   }).
   when('/watchlist',{
     templateUrl: 'watchlist.html',
-    controller: 'MainCtrl'
+    controller: 'WatchlistCtrl'
   }).
   otherwise({
     redirectTo: '/'

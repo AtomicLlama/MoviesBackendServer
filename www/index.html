@@ -38,28 +38,19 @@
         <nav>
         <div class="nav-wrapper pink accent-3">
           <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-          <a href="#!" class="brand-logo">Movies</a>
+          <a href="#!" class="brand-logo" id="logo" >Movies</a>
           <ul class="right hide-on-med-and-down">
             <ul id="dropdown1" class="dropdown-content">
-              <li ng-click="showWatchlist()"><a class="btn-floating blue"><i class="material-icons">grade</i>watchlist</a></li>
-              <li ng-click="logOut()"><a class="btn-floating red"><i class="material-icons">not_interested</i>Log out</a></li>
+              <li ng-click="showWatchlist()"><a href="#/watchlist"><i class="material-icons">grade</i>Watchlist</a></li>
+              <li ng-click="logOut()"><a><i class="material-icons">not_interested</i>Log out</a></li>
             </ul>
-            <li ng-if="user.loggedIn"><a class="dropdown-button" data-activates="dropdown1">{{user.name}}<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li ng-if="!user.loggedIn"><a ng-click="logIn()">Log in</a></li>
-            <li><form>
-              <div class="input-field">
-                <input id="search" type="search" ng-model="searchText" ng-change="search(searchText)" placeholder="Search" required>
-                <label for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons" href="/">close</i>
-              </div>
-            </form></li>
-          </ul>
-          <ul class="side-nav" id="mobile-demo">
-            <ul id="dropdown1" class="dropdown-content">
-              <li ng-click="showWatchlist()"><a class="btn-floating blue"><i class="material-icons">grade</i>watchlist</a></li>
-              <li ng-click="logOut()"><a class="btn-floating red"><i class="material-icons">not_interested</i>Log out</a></li>
-            </ul>
-            <li ng-if="user.loggedIn"><a class="dropdown-button" data-activates="dropdown1">{{user.name}}<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li ng-if="user.loggedIn">
+              <a class="dropdown-button" data-activates="dropdown1">
+                <img src="{{user.image}}" width="24" alt="" class="circle responsive-img">
+                {{user.name}}
+                <i class="material-icons right">arrow_drop_down</i>
+              </a>
+            </li>
             <li ng-if="!user.loggedIn"><a ng-click="logIn()">Log in</a></li>
             <li><form>
               <div class="input-field">
