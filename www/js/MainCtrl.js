@@ -43,12 +43,14 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
         FB.api('/me',function(response) {
           $rootScope.user.name = response.name;
         });
+        $('.dropdown-button').dropdown();
     } else {
         console.log('User cancelled login or did not fully authorize.');
     }
   };
 
   $rootScope.logIn = function() {
+    $rootScope.user.loggedIn = true;
     FB.login(login, {
         scope: "public_profile,email,user_friends"
     });
@@ -70,7 +72,6 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   };
 
   FB.getLoginStatus(function(response) {
-    console.log(response);
     if (response.status === 'connected') {
       login(response);
     }
