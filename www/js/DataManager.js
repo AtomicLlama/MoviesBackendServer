@@ -113,13 +113,15 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
 
   var addToWatchlist = function(user, movie) {
     doBackendRequest("POST","watchlist?movie=" + movie.id, user, function(data) {
-      getWatchlist(user, function(x) { });
+      watchlist.push(movie);
     });
   };
 
   var removeFromWatchlist = function(user, movie) {
     doBackendRequest("DELETE","watchlist?movie=" + movie.id, user, function(data) {
-      getWatchlist(user, function(x) { });
+      watchlist = watchlist.filter(function(x) {
+        return x !== movie;
+      });
     });
   };
 
