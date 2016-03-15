@@ -6,11 +6,18 @@ var http = require('http');
 var dispatcher = require('httpdispatcher');
 var fs = require('fs');
 var getWebFile = require('./util/getWebFile.js');
+var notFound = require('./util/notFound.js');
 
 // Allowing Delete and Put
 
 dispatcher.listeners.delete = [];
 dispatcher.listeners.put = [];
+
+// Add 404 Case
+
+dispatcher.onError = function(req, res) {
+  notFound(res);
+};
 
 // Read all the supported methods from disk
 

@@ -22,7 +22,11 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'watchlist.html',
     controller: 'WatchlistCtrl'
   }).
+  when('/404',{
+    templateUrl: '404.html',
+    controller: 'NotFoundCtrl'
+  }).
   otherwise({
-    redirectTo: '/'
+    redirectTo: '/404'
   });
 }]);
