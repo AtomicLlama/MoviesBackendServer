@@ -43,7 +43,11 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
         FB.api('/me',function(response) {
           $rootScope.user.name = response.name;
         });
-        $('.dropdown-button').dropdown();
+        DataManager.load($rootScope.user.id);
+        $(document).ready(function(){
+          $('.dropdown-button').dropdown();
+        });
+
     } else {
         console.log('User cancelled login or did not fully authorize.');
     }
