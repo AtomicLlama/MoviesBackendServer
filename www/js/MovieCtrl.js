@@ -8,7 +8,7 @@ app.controller('MovieCtrl', function ($scope, $rootScope, $routeParams, DataMana
         $rootScope.toggleWatchlist(movie);
         $scope.isInWatchlist = !$scope.isInWatchlist;
       };
-    });
+    },$rootScope.notFound);
   }
   $rootScope.searchText = "";
   $rootScope.displayAbleMovies = [];

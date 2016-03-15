@@ -5,7 +5,7 @@ app.controller('PersonCtrl', function ($scope, $rootScope, $routeParams, DataMan
       $scope.currentPerson = person;
       $rootScope.displayAbleMovies = person.movies;
       $rootScope.title = person.name;
-    });
+    },$rootScope.notFound);
   }
   $rootScope.searchText = "";
   $rootScope.progress = function() {

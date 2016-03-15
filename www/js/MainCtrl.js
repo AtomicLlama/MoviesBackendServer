@@ -32,6 +32,10 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     $location.path("/person/" + person.id);
   };
 
+  $rootScope.notFound = function() {
+    $location.path("/404");
+  };
+
   var login = function(response) {
     if (response.authResponse) {
         console.log(response.authResponse);

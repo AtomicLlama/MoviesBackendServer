@@ -44,21 +44,25 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     return actor;
   };
 
-  var addMovieFromID = function(id, callback) {
+  var addMovieFromID = function(id, callback,error) {
     var url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
       callback(generateMovieObject(response.data));
     }, function(err) {
-      console.log(err);
+      if (error) {
+        error();
+      }
     });
   };
 
-  var addActorFromID = function(id, callback) {
+  var addActorFromID = function(id, callback,error) {
     var url = "https://api.themoviedb.org/3/person/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
       callback(generatePersonObject(response.data));
     }, function(err) {
-      console.log(err);
+      if (error) {
+        error();
+      }
     });
   };
 
@@ -217,7 +221,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         addToWatchlist(user,movie);
       }
     },
-    getMovie: function(id, callback) {
+    getMovie: function(id, callback,err) {
       if (knownMovies[id]) {
         var movie = knownMovies[id];
         getTrailerForMovie(movie);
@@ -228,10 +232,10 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
           getTrailerForMovie(movie);
           addActorsForMovie(movie);
           callback(movie);
-        });
+        },err);
       }
     },
-    getPerson: function(id, callback) {
+    getPerson: function(id, callback,err) {
       if (knownPeople[id]) {
         var actor = knownPeople[id];
         addMoviesForActor(actor);
@@ -240,7 +244,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         addActorFromID(id, function(actor) {
           addMoviesForActor(actor);
           callback(actor);
-        });
+        },err);
       }
     }
   };
