@@ -4,6 +4,10 @@ app.controller('MovieCtrl', function ($scope, $rootScope, $routeParams, DataMana
       $scope.currentMovie = movie;
       $rootScope.title = movie.title;
       $scope.isInWatchlist = DataManager.isInWatchlist(movie);
+      $scope.toggle = function() {
+        $rootScope.toggleWatchlist(movie);
+        $scope.isInWatchlist = !$scope.isInWatchlist;
+      };
     });
   }
   $rootScope.searchText = "";

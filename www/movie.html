@@ -15,11 +15,11 @@
           </h4>
           <div ng-show="user.loggedIn">
             <div class="center-allign">
-              <a ng-if="!isInWatchlist" class="waves-effect waves-light btn" ng-click="toggleWatchlist(currentMovie)">
+              <a ng-if="!isInWatchlist" class="waves-effect waves-light btn" ng-click="toggle()">
                 <i class="material-icons left">add</i>
                 Add to Watchlist
               </a>
-              <a ng-if="isInWatchlist" class="waves-effect waves-light btn" ng-click="toggleWatchlist(currentMovie)">
+              <a ng-if="isInWatchlist" class="waves-effect waves-light btn" ng-click="toggle()">
                 <i class="material-icons left">remove</i>
                 Remove From Watchlist
               </a>
