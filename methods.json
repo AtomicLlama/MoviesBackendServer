@@ -16,6 +16,10 @@
     "methods": ["get"]
   },
   {
+    "name": "featured",
+    "methods": ["get"]
+  },
+  {
     "name": "subs",
     "methods": ["get","post","delete"]
   },

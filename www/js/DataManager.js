@@ -81,9 +81,8 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
 
   var fetchLatestMovies = function() {
     featured.length = 0;
-    var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=18ec732ece653360e23d5835670c47a0";
-    $http.get(url).then(function(response) {
-      var array = response.data.results;
+    $http.get("featured").then(function(response) {
+      var array = response.data;
       for (var i=0;i<array.length;i++) {
         var movie = generateMovieObject(array[i]);
         featured.push(movie);
