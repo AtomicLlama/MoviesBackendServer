@@ -6,13 +6,11 @@ app.controller('MovieCtrl', function ($scope, $rootScope, $routeParams, DataMana
     });
   }
   $rootScope.searchText = "";
-  $scope.widthOfDetail = function() {
-    var width = document.getElementById('images').offsetWidth;
-    var posterWidth = document.getElementById('poster').offsetWidth;
-    return width - posterWidth - 0.5;
-  };
   $rootScope.displayAbleMovies = [];
   $rootScope.progress = function() {
     return false;
   };
+  $(document).ready(function(){
+      $('.parallax').parallax();
+    });
 });

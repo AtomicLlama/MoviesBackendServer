@@ -72,6 +72,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   };
 
   FB.getLoginStatus(function(response) {
+    console.log(response);
     if (response.status === 'connected') {
       login(response);
     }

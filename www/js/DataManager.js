@@ -23,7 +23,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
       short: item.overview.substring(0,Math.min(50, item.overview.length)) + "...",
       rating: item.vote_average.toFixed(1),
       poster: "https://image.tmdb.org/t/p/w300" + item.poster_path,
-      detail: "https://image.tmdb.org/t/p/w500" + item.backdrop_path,
+      detail: "https://image.tmdb.org/t/p/w1000" + item.backdrop_path,
       id: item.id,
       director: "Loading...",
       actors: [],
@@ -48,6 +48,15 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     var url = "https://api.themoviedb.org/3/movie/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
     $http.get(url).then(function(response) {
       callback(generateMovieObject(response.data));
+    }, function(err) {
+      console.log(err);
+    });
+  };
+
+  var addActorFromID = function(id, callback) {
+    var url = "https://api.themoviedb.org/3/person/" + id + "?api_key=18ec732ece653360e23d5835670c47a0";
+    $http.get(url).then(function(response) {
+      callback(generatePersonObject(response.data));
     }, function(err) {
       console.log(err);
     });
@@ -202,6 +211,11 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         var actor = knownPeople[id];
         addMoviesForActor(actor);
         callback(actor);
+      } else {
+        addActorFromID(id, function(actor) {
+          addMoviesForActor(actor);
+          callback(actor);
+        });
       }
     }
   };

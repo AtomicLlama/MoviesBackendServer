@@ -1,44 +1,54 @@
-<p class="z-depth-5"><h2>{{currentMovie.title}} - {{currentMovie.year}}</h2></p>
-<div class="row" id="images">
-    <img id="poster" class="left" src="{{currentMovie.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
-    <img ng-if="widthOfDetail() > 300" class="right" height="450" width="{{widthOfDetail()}}" src="{{currentMovie.detail}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
+<div class="parallax-container">
+      <div class="parallax">
+        <img src="{{currentMovie.detail}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
+      </div>
 </div>
-<div class="row">
-  <div class="col s12">
-    <div ng-show="user.loggedIn">
-      <div class="col">
-        <a>
-          <i class="material-icons">grade</i>{{currentMovie.rating}}</a>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <div class="left">
+        <div class="col s10">
+          <img id="poster" class="z-depth-3" src="{{currentMovie.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
+        </div>
       </div>
-      <div class="col">
-        <a class="waves-effect waves-teal btn-flat">
-          <i class="material-icons">add</i>
-        </a>
+      <h2>{{currentMovie.title}} ({{currentMovie.year}})</h2>
+      <div ng-show="user.loggedIn">
+        <div class="col">
+          <a>
+            <i class="material-icons">grade</i>{{currentMovie.rating}}</a>
+        </div>
+        <div class="col">
+          <a class="waves-effect waves-teal btn-flat">
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+        <div class="col">
+          <a class="waves-effect waves-teal btn-flat">
+            <i class="material-icons">payment</i>
+          </a>
+        </div>
       </div>
-      <div class="col">
-        <a class="waves-effect waves-teal btn-flat">
-          <i class="material-icons">payment</i>
-        </a>
+      <h3>Description:</h3>
+      <p>{{currentMovie.description}}</p>
+      <h3>Cast: </h3>
+      <div class="row" ng-show"item.actors.length !== 0">
+        <ul class="collection">
+          <li ng-click="presentPerson(actor.actor)" class="collection-item avatar" ng-repeat="actor in currentMovie.actors">
+            <img src="{{actor.actor.headshot}}" alt="" class="circle">
+            <span class="title">{{actor.actor.name}}</span>
+            <p>{{actor.role}}</p>
+          </li>
+        </ul>
       </div>
-      <br>
-      <br>
-      <br>
-    </div>
-    <h3>Description:</h3>
-    <p>{{currentMovie.description}}</p>
-    <h3>Cast: </h3>
-    <div class="row" ng-show"item.actors.length !== 0">
-      <ul class="collection">
-        <li ng-click="presentPerson(actor.actor)" class="collection-item avatar" ng-repeat="actor in currentMovie.actors">
-          <img src="{{actor.actor.headshot}}" alt="" class="circle">
-          <span class="title">{{actor.actor.name}}</span>
-          <p>{{actor.role}}</p>
-        </li>
-      </ul>
-    </div>
-    <h3>Trailer: </h3>
-    <div class="video-container">
-      <iframe height="450" src="{{currentMovie.video}}" frameborder="0" allowfullscreen></iframe>
+      <div ng-if="currentMovie.video">
+        <h3>Trailer: </h3>
+        <div class="z-depth-1">
+          <div class="video-container">
+            <iframe height="450" src="{{currentMovie.video}}" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

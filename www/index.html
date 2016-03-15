@@ -38,12 +38,13 @@
       <div class="navbar-fixed">
         <nav>
         <div class="nav-wrapper pink accent-3">
-          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-          <a href="#!" class="brand-logo" id="logo" >Movies</a>
+          <a href="#!" class="brand-logo" id="logo"><img height="64" class="left" src="logo.png"/></a>
           <ul class="right hide-on-med-and-down">
             <li ng-if="user.loggedIn">
               <a class="dropdown-button" data-activates="dropdown1">
-                <img src="{{user.image}}" width="24" alt="" class="circle responsive-img">
+                <div class="left">
+                  <img src="{{user.image}}" width="24" alt="" class="circle responsive-img">
+                </div>
                 {{user.name}}
                 <i class="material-icons right">arrow_drop_down</i>
               </a>
@@ -65,9 +66,7 @@
         </nav>
       </div>
   </div>
-  <div class="container">
-    <div ng-view></div>
-  </div>
+  <div ng-view></div>
   <div id="Featured">
 	    <div class="container">
         <div class="progress" ng-show="progress()">
