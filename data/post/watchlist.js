@@ -14,7 +14,7 @@ var watchlistPost = function(req, res) {
     var movie = query.movie;
     rewriteAttributeForUser(req, function(user){
       var list = user.watchlist;
-      if (list.indexOf(movie) < 0) {
+      if (list.indexOf(movie) >= 0) {
         return user;
       } else {
         list.push(movie);
