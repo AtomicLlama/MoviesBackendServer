@@ -89,9 +89,9 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     });
   };
 
-  var doBackendRequest = function(method,user,callback) {
+  var doBackendRequest = function(method,resource,user,callback) {
     $http.defaults.headers.common.Authorization = 'Basic ' +  window.btoa(user + ":" + user);
-    $http.get(method).then(function(response) {
+    $http.get({method: method, url: resource}).then(function(response) {
       $http.defaults.headers.common.Authorization = undefined;
       var data = response.data;
       callback(data);
@@ -101,12 +101,25 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
   };
 
   var getWatchlist = function(user, callback) {
-    doBackendRequest("watchlist",user,function(array) {
+    watchlist.length = 0;
+    doBackendRequest("GET","watchlist",user,function(array) {
       var handler = function(movie) { watchlist.push(movie); };
       for (var i = 0; i < array.length; i++) {
         addMovieFromID(array[i], handler);
       }
       callback(watchlist);
+    });
+  };
+
+  var addToWatchlist = function(user, movie) {
+    doBackendRequest("POST","watchlist?movie=" + movie.id, function(data) {
+      getWatchlist(user, function(x) { });
+    });
+  };
+
+  var removeFromWatchlist = function(user, movie) {
+    doBackendRequest("DELETE","watchlist?movie=" + movie.id, function(data) {
+      getWatchlist(user, function(x) { });
     });
   };
 
@@ -190,6 +203,16 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         callback(watchlist);
       } else {
         getWatchlist(user,callback);
+      }
+    },
+    isInWatchlist: function(movie) {
+      return watchlist.indexOf(movie) >= 0;
+    },
+    toggleWatchlist: function(user,movie) {
+      if (watchlist.indexOf(movie) >= 0) {
+        removeFromWatchlist(user,movie);
+      } else {
+        addToWatchlist(user,movie);
       }
     },
     getMovie: function(id, callback) {

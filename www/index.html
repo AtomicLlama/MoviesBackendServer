@@ -43,9 +43,12 @@
             <li ng-if="user.loggedIn">
               <a class="dropdown-button" data-activates="dropdown1">
                 <div class="left">
-                  <img src="{{user.image}}" width="24" alt="" class="circle responsive-img">
+                  <div class="col s10">
+                    <div style="height: 10px;"></div>
+                    <img src="{{user.image}}" width="44" class="circle responsive-img">
+                  </div>
                 </div>
-                {{user.name}}
+                 {{user.name}}
                 <i class="material-icons right">arrow_drop_down</i>
               </a>
               <ul id="dropdown1" class="dropdown-content">
@@ -84,7 +87,7 @@
               </div>
               <div ng-show="user.loggedIn" class="card-action">
                 <a><i class="material-icons">payment</i></a>
-                <a><i class="material-icons">add</i></a>
+                <a ng-click="toggleWatchlist(item)"><i class="material-icons">{{iconForMovie(item)}}</i></a>
                 <a ng-click="presentMovie(item)"><i class="material-icons right">more_vert</i></a>
               </div>
             </div>
@@ -92,7 +95,6 @@
 	    	</div>
 	    </div>
 	</div>
-
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="js/materialize.min.js"></script>

@@ -50,15 +50,21 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   };
 
   $rootScope.logIn = function() {
-    $rootScope.user.loggedIn = true;
     FB.login(login, {
         scope: "public_profile,email,user_friends"
     });
   };
 
-  $rootScope.dimensionsForProfilePicture = function() {
-    var height = document.getElementById('logo').offsetHeight;
-    return height - 20;
+  $rootScope.toggleWatchlist = function(movie) {
+    DataManager.toggleWatchlist(movie);
+  };
+
+  $rootScope.iconForMovie = function(movie) {
+    return DataManager.isInWatchlist(movie) ? "remove circle" : "add circle";
+  };
+
+  $rootScope.textForWatchlistToggle = function(movie) {
+    return DataManager.isInWatchlist(movie) ? "Remove from Watchlist" : "Add to Watchlist";
   };
 
   $rootScope.classForMovieCard = function() {

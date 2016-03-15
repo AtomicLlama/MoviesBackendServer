@@ -10,25 +10,24 @@
       <div class="left">
         <div class="col s10">
           <img id="poster" class="z-depth-3" src="{{currentMovie.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
+          <h4>
+            Rating: <i class="material-icons">grade</i>{{currentMovie.rating}}
+          </h4>
+          <div ng-show="user.loggedIn">
+            <div class="center-allign">
+              <a class="waves-effect waves-light btn" ng-click="toggleWatchlist(currentMovie)">
+                <i class="material-icons left">{{iconForMovie(currentMovie)}}</i>{{textForWatchlistToggle(currentMovie)}}
+              </a>
+              <br>
+              <br>
+              <a class="waves-effect waves-light btn">
+                <i class="material-icons left">payment</i>Buy Tickets
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <h2>{{currentMovie.title}} ({{currentMovie.year}})</h2>
-      <div ng-show="user.loggedIn">
-        <div class="col">
-          <a>
-            <i class="material-icons">grade</i>{{currentMovie.rating}}</a>
-        </div>
-        <div class="col">
-          <a class="waves-effect waves-teal btn-flat">
-            <i class="material-icons">add</i>
-          </a>
-        </div>
-        <div class="col">
-          <a class="waves-effect waves-teal btn-flat">
-            <i class="material-icons">payment</i>
-          </a>
-        </div>
-      </div>
       <h3>Description:</h3>
       <p>{{currentMovie.description}}</p>
       <h3>Cast: </h3>
