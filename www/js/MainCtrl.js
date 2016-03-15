@@ -56,15 +56,11 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   };
 
   $rootScope.toggleWatchlist = function(movie) {
-    DataManager.toggleWatchlist(movie);
+    DataManager.toggleWatchlist($rootScope.user.id, movie);
   };
 
   $rootScope.iconForMovie = function(movie) {
     return DataManager.isInWatchlist(movie) ? "remove circle" : "add circle";
-  };
-
-  $rootScope.textForWatchlistToggle = function(movie) {
-    return DataManager.isInWatchlist(movie) ? "Remove from Watchlist" : "Add to Watchlist";
   };
 
   $rootScope.classForMovieCard = function() {

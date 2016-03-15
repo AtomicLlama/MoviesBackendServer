@@ -2,6 +2,7 @@ app.controller('MovieCtrl', function ($scope, $rootScope, $routeParams, DataMana
   if ($routeParams.id) {
     DataManager.getMovie($routeParams.id,function(movie){
       $scope.currentMovie = movie;
+      $scope.text = DataManager.isInWatchlist(movie) ? "Remove from Watchlist" : "Add to Watchlist";
       $rootScope.title = movie.title;
     });
   }
