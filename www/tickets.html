@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Tickets for {{currentMovie.title}}</h2>
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Step 1: Date and Location</div>
+      <div class="collapsible-body">
+        <div class="container">
+          <h6>Use Current Location</h6>
+          <br>
+          <div class="switch">
+            <label>
+              Off
+              <input ng-model="useLocation" ng-change="getLocation(useLocation)" type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+          <br>
+          <label>Date</label>
+          <input type="date" class="datepicker" ng-model="date" ng-change="fetchTimes()">
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Step 2: Pick Show</div>
+      <div class="collapsible-body">
+        <div class="container">
+          <div class="input-field col s12">
+            <select class="browser-default" ng-model="selectedOption" ng-change='changeTimes(seletedOption)'>
+              <option ng-repeat="cinema in cinemas" value="{{$index}}">{{cinema.name}}</option>
+              <option value="" disabled selected>Choose Cinema</option>
+            </select>
+          </div>
+          <form ng-if="selectedCinema">
+            <h6>Now Select a Showtime:</h6>
+            <p ng-repeat="time in selectedCinema.times">
+              <input name="group1" type="radio" id="o{{$index}}" />
+              <label for="o{{$index}}">{{time.film}} - {{time.time}}</label>
+            </p>
+          </form>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Step 3: Choose Tickets</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Step 4: Pay</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+</div>

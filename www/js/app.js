@@ -10,6 +10,10 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'movie.html',
     controller: 'MovieCtrl'
   }).
+  when('/tickets/:id', {
+    templateUrl: 'tickets.html',
+    controller: 'TicketsCtrl'
+  }).
   when('/person/:id',{
     templateUrl: 'person.html',
     controller: 'PersonCtrl'

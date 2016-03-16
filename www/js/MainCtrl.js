@@ -32,6 +32,10 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     $location.path("/person/" + person.id);
   };
 
+  $rootScope.buyTickets = function(movie) {
+    $location.path("/tickets/" + movie.id);
+  };
+
   $rootScope.notFound = function() {
     $location.path("/404");
   };

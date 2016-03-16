@@ -245,6 +245,13 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
           callback(actor);
         },err);
       }
+    },
+    getShowtimes: function(id,location,date,callback) {
+      $http.get("showtimes?movie=" + id + "&lat=" + location.latitude + "&lon=" + location.longitude).then(function(response) {
+        callback(response.data);
+      },function(err) {
+        callback([]);
+      });
     }
   };
 
