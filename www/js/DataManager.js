@@ -13,11 +13,12 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     if (16 < item.original_title.length) {
       shorterTitle = item.original_title.substring(0,13) + "...";
     }
+    var overview = item.overview || "";
     var movie = {
       title: item.original_title,
       stitle: shorterTitle,
       description: item.overview,
-      short: item.overview.substring(0,Math.min(50, item.overview.length)) + "...",
+      short: overview.substring(0,Math.min(50, overview.length)) + "...",
       rating: item.vote_average.toFixed(1),
       poster: "https://image.tmdb.org/t/p/w300" + item.poster_path,
       detail: "https://image.tmdb.org/t/p/w1000" + item.backdrop_path,
