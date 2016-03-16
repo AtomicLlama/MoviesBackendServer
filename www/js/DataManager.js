@@ -13,7 +13,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     if (16 < item.original_title.length) {
       shorterTitle = item.original_title.substring(0,13) + "...";
     }
-    var overview = item.overview || "";
+    var overview = item.overview || "No Description Available";
     var movie = {
       title: item.original_title,
       stitle: shorterTitle,
