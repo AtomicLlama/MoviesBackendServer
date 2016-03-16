@@ -62,7 +62,7 @@
             <div class="chip" ng-repeat="person in friends">
               <img src="{{person.image}}" alt="Contact Person">
               {{person.name}}
-              <i ng-if="person.deletable" class="material-icons">close</i>
+              <i ng-if="person.deletable" ng-click="removeFriend(person)" class="material-icons">close</i>
             </div>
             <div class="chip" ng-if="numberOfSeats > friends.length" ng-click="addFriend()">
               Add a friend
@@ -90,6 +90,9 @@
           <span class="title">{{friend.name}}</span>
         </li>
       </ul>
+      <div class="valign-wrapper" ng-if="facebook.length === 0">
+        <h5 class="valign">Sorry but we couldn't find any more friends. :(</h5>
+      </div>
     </div>
     <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>

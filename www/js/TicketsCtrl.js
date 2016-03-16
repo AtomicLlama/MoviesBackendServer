@@ -73,6 +73,7 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
   $scope.addFriend = function(friend) {
     if (friend) {
       $scope.friends.push(friend);
+      $scope.facebook.splice($scope.facebook.indexOf(friend),1);
       $('#modal1').closeModal();
     } else if ($scope.facebook) {
       $('#modal1').openModal();
@@ -89,6 +90,11 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
         $('#modal1').openModal();
       });
     }
+  };
+
+  $scope.removeFriend = function(friend) {
+    $scope.facebook.push(friend);
+    $scope.friends.splice($scope.friends.indexOf(friend),1);
   };
 
   // Data
