@@ -72,7 +72,8 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
 
   $scope.addFriend = function(friend) {
     if (friend) {
-      friends.push(friend);
+      $scope.friends.push(friend);
+      $('#modal1').closeModal();
     } else if ($scope.facebook) {
       $('#modal1').openModal();
     } else {
