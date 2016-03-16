@@ -19,7 +19,6 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
   $scope.getLocation = function(use) {
     if (use && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(loc) {
-        console.log(loc);
         $scope.location = loc.coords;
         $scope.fetchTimes();
       });
@@ -27,6 +26,7 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
   };
 
   $scope.fetchTimes = function() {
+    console.log($scope.date);
     if ($scope.location && $scope.date) {
       DataManager.getShowtimes($scope.currentMovie.id,$scope.location,$scope.date,function(showtimes) {
         var cinemas = [];
@@ -61,13 +61,46 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
     $scope.selectedCinema = $scope.cinemas[$scope.selectedOption];
   };
 
+  $scope.dateToString = function(date) {
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+    var day = date.getDate();
+    var month = monthNames[date.getMonth()];
+    var year = date.getFullYear();
+    return day + " " + month + ", " + year;
+  };
+
+  $scope.addFriend = function(friend) {
+    if (friend) {
+      friends.push(friend);
+    } else if ($scope.facebook) {
+      $('#modal1').openModal();
+    } else {
+      FB.api('me/friends',{fields: "name,picture.height(150)"}, function(response) {
+        $scope.facebook = response.data.map(function(friend) {
+          return {
+            name: friend.name,
+            id: friend.id,
+            image: friend.picture.data.url,
+            deletable: true
+          };
+        });
+        $('#modal1').openModal();
+      });
+    }
+  };
+
   // Data
 
-  $scope.date = Date.now();
+  $scope.date = $scope.dateToString(new Date());
   $scope.cinemas = [];
-  $scope.selectedShow = {};
   $scope.numberOfSeats = 1;
-  $scope.friends = [];
+  $scope.friends = [{
+    name: "You",
+    id: $rootScope.user.id,
+    image: $rootScope.user.image,
+    deletable: false
+  }];
 
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month

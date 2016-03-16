@@ -4,10 +4,10 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   $rootScope.fullStack = [];
   $rootScope.searchText = "";
   $rootScope.user = {
-    name: "",
+    name: "Mathias Quintero",
     id: "",
     loggedIn: false,
-    image: ""
+    image: "https://avatars2.githubusercontent.com/u/13184158?v=3&s=460"
   };
 
   $rootScope.search = function(text) {

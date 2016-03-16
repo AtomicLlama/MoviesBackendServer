@@ -1,8 +1,16 @@
 <div class="container">
-  <h2>Tickets for {{currentMovie.title}}</h2>
+  <div class="row">
+    <div class="left">
+      <div class="col s10">
+        <img id="poster" class="z-depth-3" height="200" src="{{currentMovie.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'">
+      </div>
+    </div>
+    <h2>Tickets for {{currentMovie.title}}</h2>
+    <p>{{currentMovie.description}}</p>
+  </div>
   <ul class="collapsible popout" data-collapsible="accordion">
     <li>
-      <div class="collapsible-header"><i class="material-icons">place</i>Step 1: Date and Location</div>
+      <div class="collapsible-header active"><i class="material-icons">place</i>Step 1: Date and Location</div>
       <div class="collapsible-body">
         <div class="container">
           <h6>Use Current Location</h6>
@@ -17,12 +25,12 @@
           </div>
           <br>
           <label>Date</label>
-          <input type="date" class="datepicker" ng-model="date" ng-change="fetchTimes()">
+          <input type="date" value="16 March, 2016" class="datepicker" id="date" ng-model="date" ng-change="fetchTimes()">
         </div>
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><i class="material-icons">place</i>Step 2: Pick Show</div>
+      <div class="collapsible-header"><i class="material-icons">access_time</i>Step 2: Pick Show</div>
       <div class="collapsible-body">
         <div class="container">
           <div class="input-field col s12">
@@ -38,16 +46,52 @@
               <label for="o{{$index}}">{{time.film}} - {{time.time}}</label>
             </p>
           </form>
+          <br>
         </div>
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><i class="material-icons">whatshot</i>Step 3: Choose Tickets</div>
-      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+      <div class="collapsible-header"><i class="material-icons">event_seat</i>Step 3: Choose Tickets</div>
+      <div class="collapsible-body">
+        <div class="container">
+          <p class="range-field">
+            <input type="range" value="1" ng-model="numberOfSeats" id="test5" min="{{friends.length}}" max="10" />
+            <label for="test5">Number of Tickets: {{numberOfSeats}}</label>
+          </p>
+          <div id="friends">
+            <div class="chip" ng-repeat="person in friends">
+              <img src="{{person.image}}" alt="Contact Person">
+              {{person.name}}
+              <i ng-if="person.deletable" class="material-icons">close</i>
+            </div>
+            <div class="chip" ng-if="numberOfSeats > friends.length" ng-click="addFriend()">
+              Add a friend
+              <i class="material-icons">add</i>
+            </div>
+          </div>
+          <label for="friends">Who's Coming</label>
+        </div>
+        <br>
+      </div>
     </li>
     <li>
-      <div class="collapsible-header"><i class="material-icons">whatshot</i>Step 4: Pay</div>
+      <div class="collapsible-header"><i class="material-icons">payment</i>Step 4: Pay</div>
       <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
     </li>
   </ul>
 </div>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Select a friend</h4>
+      <ul class="collection">
+        <li ng-click="addFriend(friend)" class="collection-item avatar" ng-repeat="friend in facebook">
+          <img src="{{friend.image}}" alt="" class="circle">
+          <span class="title">{{friend.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+  </div>
