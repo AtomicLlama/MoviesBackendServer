@@ -25,9 +25,14 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
     }
   };
 
+  $scope.selectShow = function(selected) {
+    $scope.selectedShow = selected;
+  };
+
   $scope.fetchTimes = function() {
-    console.log($scope.date);
     if ($scope.location && $scope.date) {
+      $scope.loading = true;
+      $scope.selectedShow = undefined;
       DataManager.getShowtimes($scope.currentMovie.id,$scope.location,$scope.date,function(showtimes) {
         var cinemas = [];
         var i;
@@ -53,12 +58,14 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
           }));
         }
         $scope.cinemas = copy;
+        $scope.loading = false;
       });
     }
   };
 
   $scope.changeTimes = function() {
-    $scope.selectedCinema = $scope.cinemas[$scope.selectedOption];
+    $scope.selectedCinema = $scope.cinemas[document.getElementById('select').value];
+    $scope.selectedShow = undefined;
   };
 
   $scope.dateToString = function(date) {
@@ -91,6 +98,8 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
       });
     }
   };
+
+  $scope.loading = false;
 
   $scope.removeFriend = function(friend) {
     $scope.facebook.push(friend);

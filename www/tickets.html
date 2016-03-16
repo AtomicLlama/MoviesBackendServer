@@ -32,9 +32,9 @@
     <li>
       <div class="collapsible-header"><i class="material-icons">access_time</i>Step 2: Pick Show</div>
       <div class="collapsible-body">
-        <div class="container">
+        <div class="container" ng-if="cinemas.length !== 0">
           <div class="input-field col s12">
-            <select class="browser-default" ng-model="selectedOption" ng-change='changeTimes(seletedOption)'>
+            <select id="select" class="browser-default" ng-model="selectedOption" ng-change='changeTimes(seletedOption)'>
               <option ng-repeat="cinema in cinemas" value="{{$index}}">{{cinema.name}}</option>
               <option value="" disabled selected>Choose Cinema</option>
             </select>
@@ -42,16 +42,29 @@
           <form ng-if="selectedCinema">
             <h6>Now Select a Showtime:</h6>
             <p ng-repeat="time in selectedCinema.times">
-              <input name="group1" type="radio" id="o{{$index}}" />
+              <input ng-model="selectedShow" ng-value="time" ng-change="selectShow(selectedShow)" name="group1" type="radio" id="o{{$index}}" />
               <label for="o{{$index}}">{{time.film}} - {{time.time}}</label>
             </p>
           </form>
           <br>
         </div>
+        <div class="container" ng-if="cinemas.length === 0 && !loading">
+          <p>
+            Sorry, but we were not able to find any showtimes at your location. Perhaps try a different date or location.
+          </p>
+        </div>
+        <div class="container" ng-if="loading">
+          <div class="progress">
+              <div class="indeterminate"></div>
+          </div>
+          <p>
+            Loading Showtimes...
+          </p>
+        </div>
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><i class="material-icons">event_seat</i>Step 3: Choose Tickets</div>
+      <div class="collapsible-header" ng-disabled="!selectedShow"><i class="material-icons">event_seat</i>Step 3: Choose Tickets</div>
       <div class="collapsible-body">
         <div class="container">
           <p class="range-field">
@@ -75,7 +88,7 @@
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><i class="material-icons">payment</i>Step 4: Pay</div>
+      <div class="collapsible-header" ng-disabled="!selectedShow"><i class="material-icons">payment</i>Step 4: Pay</div>
       <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
     </li>
   </ul>
