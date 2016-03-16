@@ -9,12 +9,9 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     if (knownMovies[item.id]) {
       return knownMovies[item.id];
     }
-    var shorterTitle = "";
-    if (item.original_title) {
-      shorterTitle = item.original_title.substring(0,Math.min(16, item.original_title.length));
-    }
-    if (shorterTitle.length < item.original_title.length) {
-      shorterTitle = shorterTitle.substring(0,13) + "...";
+    var shorterTitle = item.original_title;
+    if (16 < item.original_title.length) {
+      shorterTitle = item.original_title.substring(0,13) + "...";
     }
     var movie = {
       title: item.original_title,
