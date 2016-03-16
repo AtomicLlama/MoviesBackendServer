@@ -14,7 +14,7 @@ var subsPost = function(req, res) {
     var person = query.person;
     rewriteAttributeForUser(req, function(user) {
       var list = user.subs || [];
-      if (list.indexOf(person) < 0) {
+      if (list.indexOf(person) >= 0) {
         return user;
       } else {
         list.push(person);
