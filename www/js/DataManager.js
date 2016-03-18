@@ -91,7 +91,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
   };
 
   var doBackendRequest = function(method,resource,user,callback) {
-    $http.defaults.headers.common.Authorization = 'Basic ' +  window.btoa(user + ":" + user);
+    $http.defaults.headers.common.Authorization = 'Basic ' +  window.btoa(user.id + ":" + user.token);
     $http({method: method, url: resource}).then(function(response) {
       $http.defaults.headers.common.Authorization = undefined;
       var data = response.data;

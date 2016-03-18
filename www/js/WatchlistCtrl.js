@@ -4,7 +4,7 @@ app.controller('WatchlistCtrl', function ($scope, $rootScope, $routeParams, Data
   $rootScope.progress = function() {
     return $rootScope.displayAbleMovies.length === 0;
   };
-  DataManager.getWatchlist($rootScope.user.id,function(list) {
+  DataManager.getWatchlist($rootScope.user,function(list) {
     $rootScope.displayAbleMovies = list;
   });
 });

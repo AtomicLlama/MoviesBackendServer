@@ -6,6 +6,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   $rootScope.user = {
     name: "",
     id: "",
+    token: "",
     loggedIn: false,
     image: ""
   };
@@ -45,6 +46,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
         console.log(response.authResponse);
         $rootScope.user.id = response.authResponse.userID; //get FB UID
         $rootScope.user.loggedIn = true;
+        $rootScope.user.token = response.authResponse.accessToken;
         FB.api('/me/picture', function(response) {
             $rootScope.user.image = response.data.url;
         });
@@ -55,7 +57,6 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
         $(document).ready(function(){
           $('.dropdown-button').dropdown();
         });
-
     } else {
         console.log('User cancelled login or did not fully authorize.');
     }
@@ -68,7 +69,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
   };
 
   $rootScope.toggleWatchlist = function(movie) {
-    DataManager.toggleWatchlist($rootScope.user.id, movie);
+    DataManager.toggleWatchlist($rootScope.user, movie);
   };
 
   $rootScope.iconForMovie = function(movie) {

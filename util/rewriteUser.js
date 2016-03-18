@@ -24,14 +24,17 @@ var rewriteUser = function(req, callback, res) {
           res.writeHead(404, {'Content-Type': 'application/json'});
           res.end("Wasn't able to rewrite it. Perhaps there is no user with that id");
         } else {
-          if (verifyAuth(doc,req)) {
-            var newUser = callback(doc);
-            db.collection('users').save(newUser);
-            db.close();
-            respondWith(res, JSON.stringify(newUser,0,4));
-          } else {
-            accessDenied(res);
-          }
+          verifyAuth(doc,req,function(valid) {
+            if (valid) {
+              var newUser = callback(doc);
+              db.collection('users').save(newUser);
+              db.close();
+              respondWith(res, JSON.stringify(newUser,0,4));
+            } else {
+              db.close();
+              accessDenied(res);
+            }
+          });
         }
       });
     });

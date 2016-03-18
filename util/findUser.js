@@ -25,11 +25,13 @@ var findUser = function(callback, req, res) {
           registerUser(id,callback);
         } else {
           db.close();
-          if (verifyAuth(doc,req)) {
-            callback(doc);
-          } else {
-            accessDenied(res);
-          }
+          verifyAuth(doc,req,function(valid) {
+            if (valid) {
+              callback(doc);
+            } else {
+              accessDenied(res);
+            }
+          });
         }
       });
     });
