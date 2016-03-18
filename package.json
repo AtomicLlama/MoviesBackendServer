@@ -39,8 +39,6 @@
   ],
   "dependencies": {
     "aeolus": "*",
-    "basic-auth": "*",
-    "httpdispatcher": "*",
     "mongodb": "*",
     "request": "*",
     "showtimes": "*"
