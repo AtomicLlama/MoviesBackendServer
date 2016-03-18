@@ -1,5 +1,7 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
+
+var distanceGet = new Method();
 
 /**
  * Get the Distance Setting of a user
@@ -7,12 +9,14 @@ var respondWith = require('../../util/respondWith.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var distanceGet = function(req, res) {
+distanceGet.handle(function(req, res) {
   var callback = function(data) {
     var distance = data.maxDistanceForCinema;
-    respondWith(res, JSON.stringify(distance,0,4));
+    res.respondJSON(distance);
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
+
+distanceGet.setHasAuth(true);
 
 module.exports = distanceGet;

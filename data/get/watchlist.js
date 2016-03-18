@@ -1,5 +1,6 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
+
 
 /**
  * Get the watchlist of a user
@@ -7,12 +8,14 @@ var respondWith = require('../../util/respondWith.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var watchlistGet = function(req, res) {
+var watchlistGet = new Method();
+
+watchlistGet.handle(function(req, res) {
   var callback = function(data) {
     var movies = data.watchlist;
-    respondWith(res, JSON.stringify(movies,0,4));
+    res.respondJSON(movies);
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
 
 module.exports = watchlistGet;

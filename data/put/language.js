@@ -1,4 +1,4 @@
-var url = require('url');
+var Method = require('Aeolus').Method;
 var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
@@ -7,19 +7,22 @@ var rewriteAttributeForUser = require('../../util/rewriteUser.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var languagePost = function(req, res) {
-  var queryObject = url.parse(req.url, true);
-  var query = queryObject.query;
+var languagePost = new Method();
+
+languagePost.handle(function(req, res) {
   try {
-    var pref = query.pref;
-    rewriteAttributeForUser(req, function(user){
+    var pref = req.getParameter("req");
+    rewriteAttributeForUser(function(user){
       user.preferredLanguageSetting = pref;
       return user;
-    },res);
+    },req.getUsername(),function(user) {
+      res.respondJSON(user.preferredLanguageSetting);
+    });
   } catch (e) {
-    res.writeHead(501, {'Content-Type': 'application/json'});
-    res.end("You need to specify what setting to add through the query.");
+    res.respondPlainText("You need to specify what setting to add through the query.",501);
   }
-};
+});
+
+languagePost.setHasAuth(true);
 
 module.exports = languagePost;

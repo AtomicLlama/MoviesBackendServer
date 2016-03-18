@@ -1,4 +1,4 @@
-var url = require('url');
+var Method = require('Aeolus').Method;
 var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
@@ -7,19 +7,22 @@ var rewriteAttributeForUser = require('../../util/rewriteUser.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var distancePost = function(req, res) {
-  var queryObject = url.parse(req.url, true);
-  var query = queryObject.query;
+var distancePost = new Method();
+
+distancePost.handle(function(req, res) {
   try {
-    var pref = query.pref;
-    rewriteAttributeForUser(req, function(user){
+    var pref = req.getParameter("pref");
+    rewriteAttributeForUser(function(user){
       user.maxDistanceForCinema = pref;
       return user;
-    },res);
+    },req.getUsername(),function(user) {
+      res.respondJSON(user.maxDistanceForCinema);
+    });
   } catch (e) {
-    res.writeHead(501, {'Content-Type': 'application/json'});
-    res.end("You need to specify what setting to add through the query.");
+    res.respondPlainText("You need to specify what setting to add through the query.",501);
   }
-};
+});
+
+distancePost.setHasAuth(true);
 
 module.exports = distancePost;

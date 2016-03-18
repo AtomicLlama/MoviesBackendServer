@@ -38,6 +38,7 @@
     "awesome"
   ],
   "dependencies": {
+    "aeolus": "^1.1.6",
     "basic-auth": "*",
     "httpdispatcher": "*",
     "mongodb": "*",

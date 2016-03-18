@@ -1,7 +1,6 @@
+var Method = require('Aeolus').Method;
 var Showtimes = require('showtimes');
-var url = require('url');
 var request = require('request');
-var respondWith = require('../../util/respondWith.js');
 
 var getURL = function(movie, language) {
   return "https://api.themoviedb.org/3/movie/" + movie + "?api_key=18ec732ece653360e23d5835670c47a0&language=" + language;
@@ -63,17 +62,17 @@ var getTimes = function(timesAPI, allowed, res) {
         return array.concat(stuff);
       },[]);
       if (returnableResponse.length > 0) {
-        respondWith(res, JSON.stringify(returnableResponse,0,4));
+        res.respondJSON(returnableResponse);
       } else {
-        res.writeHead(404, {'Content-Type': 'application/json'});
-        res.end("No theatres");
+        res.respondPlainText("No theatres found",404);
       }
     } else {
-      res.writeHead(404, {'Content-Type': 'application/json'});
-      res.end(err);
+      res.respondPlainText("No theatres found",404);
     }
   });
 };
+
+var showtimeGet = new Method();
 
 /**
  * Get showtimes for a specific movie in specific coordinates
@@ -81,24 +80,22 @@ var getTimes = function(timesAPI, allowed, res) {
  * @param  {Response} res  Response
  * @return {void}          nothing
 */
-var showtimeGet = function(req,res) {
-  var queryObject = url.parse(req.url, true);
-  var query = queryObject.query;
-  var lat = query.lat;
-  var lon = query.lon;
-  var movie = query.movie;
-  var timesAPI = new Showtimes(lat + "," + lon, {});
-  if (query.date) {
-    timesAPI = new Showtimes(lat + "," + lon, {date: query.date});
-  }
+showtimeGet.handle(function(req,res) {
+  var lat = req.getParameter("lat");
+  var lon = req.getParameter("lon");
+  var movie = req.getParameter("movie");
   try {
-    getAllNames(movie, function(names) {
-      getTimes(timesAPI,names,res);
-    });
-  } catch(err) {
-    res.writeHead(404, {'Content-Type': 'application/json'});
-    res.end(err);
+    var timesAPI = new Showtimes(lat + "," + lon, {});
+    if (req.getParameter("date")) {
+      timesAPI = new Showtimes(lat + "," + lon, {date: req.getParameter("date")});
+    }
+  } catch (e) {
+    res.respondPlainText("You need to specify what setting to add through the query.", 501);
   }
-};
+  getAllNames(movie, function(names) {
+    getTimes(timesAPI,names,res);
+  });
+});
+
 
 module.exports = showtimeGet;

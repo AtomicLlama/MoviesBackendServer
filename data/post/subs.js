@@ -1,4 +1,4 @@
-var url = require('url');
+var Method = require('Aeolus').Method;
 var rewriteAttributeForUser = require('../../util/rewriteUser.js');
 
 /**
@@ -7,12 +7,12 @@ var rewriteAttributeForUser = require('../../util/rewriteUser.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var subsPost = function(req, res) {
-  var queryObject = url.parse(req.url, true);
-  var query = queryObject.query;
+var subsPost = new Method();
+
+subsPost.handle(function(req, res) {
   try {
-    var person = query.person;
-    rewriteAttributeForUser(req, function(user) {
+    var person = req.getParameter("person");
+    rewriteAttributeForUser(function(user) {
       var list = user.subs || [];
       if (list.indexOf(person) >= 0) {
         return user;
@@ -21,11 +21,14 @@ var subsPost = function(req, res) {
         user.subs = list;
         return user;
       }
-    },res);
+    },req.getUsername(),function(user) {
+      res.respondJSON(user.subs);
+    });
   } catch (e) {
-    res.writeHead(501, {'Content-Type': 'application/json'});
-    res.end("You need to specify what setting to add through the query.");
+    res.respondPlainText("You need to specify what setting to add through the query.",501);
   }
-};
+});
+
+subsPost.setHasAuth(true);
 
 module.exports = subsPost;

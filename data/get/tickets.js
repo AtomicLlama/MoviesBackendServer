@@ -1,5 +1,6 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
+
 
 /**
  * Get all the tickets for a user
@@ -7,12 +8,16 @@ var respondWith = require('../../util/respondWith.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var ticketsGet = function(req, res) {
+var ticketsGet = new Method();
+
+ticketsGet.handle(function(req, res) {
   var callback = function(data) {
     var tickets = data.tickets;
-    respondWith(res, JSON.stringify(tickets,0,4));
+    res.respondJSON(tickets);
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
+
+ticketsGet.setHasAuth(true);
 
 module.exports = ticketsGet;

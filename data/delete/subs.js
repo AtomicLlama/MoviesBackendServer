@@ -1,5 +1,7 @@
-var url = require('url');
+var Method = require('Aeolus').Method;
 var rewriteAttributeForUser = require('../../util/rewriteUser.js');
+
+var subsDelete = new Method();
 
 /**
  * Remove a person from a user's subscriptions
@@ -7,20 +9,21 @@ var rewriteAttributeForUser = require('../../util/rewriteUser.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var subsDelete = function(req, res) {
-  var queryObject = url.parse(req.url, true);
-  var query = queryObject.query;
+subsDelete.handle(function(req, res) {
   try {
-    var person = query.person;
-    rewriteAttributeForUser(req, function(user){
+    var person = req.getParameter("person");
+    rewriteAttributeForUser(function(user){
       var list = user.subs || [];
       user.subs = list.filter(function(x) { return x !== person; });
       return user;
-    }, res);
+    }, req.getUsername(), function(user) {
+      res.respondJSON(user.subs);
+    });
   } catch (e) {
-    res.writeHead(501, {'Content-Type': 'application/json'});
-    res.end("You need to specify what setting to add through the query.");
+    res.respondPlainText("You need to specify what setting to add through the query.",501);
   }
-};
+});
+
+subsDelete.setHasAuth(true);
 
 module.exports = subsDelete;

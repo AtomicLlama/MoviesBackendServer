@@ -1,5 +1,5 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
 
 /**
  * Get the settings for a user
@@ -7,7 +7,9 @@ var respondWith = require('../../util/respondWith.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var userGet = function(req, res) {
+var userGet = new Method();
+
+userGet.handle(function(req, res) {
   var callback = function(data) {
     var map = function(user) {
       return {
@@ -17,10 +19,11 @@ var userGet = function(req, res) {
         "preferredLanguageSetting": user.preferredLanguageSetting
       };
     };
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    respondWith(res, JSON.stringify(map(data),0,4));
+    res.respondJSON(map(data));
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
+
+userGet.setHasAuth(true);
 
 module.exports = userGet;

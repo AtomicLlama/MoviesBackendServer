@@ -1,5 +1,7 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
+
+var subsGet = new Method();
 
 /**
  * Get the Subscriptions of a user
@@ -7,12 +9,14 @@ var respondWith = require('../../util/respondWith.js');
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var subsGet = function(req, res) {
+subsGet.handle(function(req, res) {
   var callback = function(data) {
     var subs = data.subs || [];
-    respondWith(res, JSON.stringify(subs,0,4));
+    res.respondJSON(subs);
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
+
+subsGet.setHasAuth(true);
 
 module.exports = subsGet;

@@ -1,18 +1,23 @@
+var Method = require('Aeolus').Method;
 var findUser = require('../../util/findUser.js');
-var respondWith = require('../../util/respondWith.js');
+
+
+var notifyWatchGet = new Method();
 
 /**
- * Get the Notification on Subscriptions Setting of a user
+ * Get the Language Setting of a user
  * @param  {Request}  req  Request
  * @param  {Response} res  Response
  * @return {void}          nothing
  */
-var notifyWatchGet = function(req, res) {
+notifyWatchGet.handle(function(req, res) {
   var callback = function(data) {
     var pref = data.notifyOnWatchList;
-    respondWith(res, JSON.stringify(pref,0,4));
+    res.respondJSON(pref);
   };
-  findUser(callback, req, res);
-};
+  findUser(callback, req.getUsername());
+});
+
+notifyWatchGet.setHasAuth(true);
 
 module.exports = notifyWatchGet;

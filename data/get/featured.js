@@ -1,5 +1,5 @@
+var Method = require('Aeolus').Method;
 var request = require('request');
-var respondWith = require('../../util/respondWith.js');
 
 var movies = [];
 var lastCheck = null;
@@ -46,7 +46,9 @@ var compare = function(a,b) {
   return diff;
 };
 
-var getMovies = function(req, res) {
+var getMovies = new Method();
+
+getMovies.handle(function(req, res) {
   var count = 0;
   if (movies.length === 0 || getDiffInDays(lastCheck) > 0.5) {
     lastCheck = Date.now();
@@ -60,15 +62,15 @@ var getMovies = function(req, res) {
       if (count === resources.length) {
         movies = toSet(movies,function(x) { return x.id; });
         movies = movies.sort(compare);
-        respondWith(res, JSON.stringify(movies,0,4));
+        res.respondJSON(movies);
       }
     };
     for (var i = 0; i < resources.length; i++) {
       request(url(resources[i]), handler);
     }
   } else {
-    respondWith(res, JSON.stringify(movies,0,4));
+    res.respondJSON(movies);
   }
-};
+});
 
 module.exports = getMovies;

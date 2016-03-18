@@ -1,4 +1,3 @@
-var auth = require('basic-auth');
 var request = require('request');
 
 var generateURL = function(token) {
@@ -11,11 +10,10 @@ var generateURL = function(token) {
  * @param  {Request} req  Request
  * @return {void}         Nothing
  */
-var verifyAuth = function(user,req, callback) {
-  var data = auth(req);
-  request(generateURL(data.pass), function(error, response, body) {
+var verifyAuth = function(user,pass, callback) {
+  request(generateURL(pass), function(error, response, body) {
     if (!error || error === null) {
-      var loggedin = JSON.parse(body).id == data.name;
+      var loggedin = JSON.parse(body).id == user;
       callback(loggedin);
     } else {
       callback(false);
