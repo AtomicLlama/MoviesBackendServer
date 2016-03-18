@@ -1,4 +1,4 @@
-var Aeolus = require('Aeolus');
+var Aeolus = require('aeolus');
 var auth = require('./util/authentification.js');
 
 Aeolus.auth(auth);
