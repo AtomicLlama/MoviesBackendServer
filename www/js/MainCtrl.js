@@ -53,7 +53,7 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
         FB.api('/me',function(response) {
           $rootScope.user.name = response.name;
         });
-        DataManager.load($rootScope.user.id);
+        DataManager.load($rootScope.user);
         $(document).ready(function(){
           $('.dropdown-button').dropdown();
         });
