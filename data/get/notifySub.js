@@ -1,4 +1,4 @@
-var Method = require('Aeolus').Method;
+var Method = require('aeolus').Method;
 var findUser = require('../../util/findUser.js');
 
 
