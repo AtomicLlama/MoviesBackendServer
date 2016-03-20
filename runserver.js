@@ -2,7 +2,7 @@ var aeolus = require('aeolus');
 var auth = require('./util/authentification.js');
 
 aeolus.auth(auth);
-aeolus.methods("/data");
+aeolus.methods("/api");
 aeolus.onError(function(req,res) {
   res.redirect("../#/404");
 });
