@@ -42,12 +42,12 @@
         <div class="nav-wrapper pink accent-3">
           <a href="#/" class="brand-logo" id="logo"><img height="64" class="left" src="logo.png"/></a>
           <ul class="right hide-on-med-and-down">
-            <li ng-if="user.loggedIn">
+            <li ng-show="user.loggedIn">
               <a class="dropdown-button" data-activates="dropdown1">
                 <div class="left">
                   <div class="col s10">
                     <div style="height: 10px;"></div>
-                    <img src="{{user.image}}" width="44" class="circle responsive-img">
+                    <img src="{{user.image}}" alt="http://img2.wikia.nocookie.net/__cb20130607025329/creepypasta/images/3/38/Avatar-blank.jpg" width="44" class="circle responsive-img">
                   </div>
                 </div>
                  {{user.name}}
@@ -58,7 +58,7 @@
                 <li ng-click="logOut()"><a><i class="material-icons">not_interested</i>Log out</a></li>
               </ul>
             </li>
-            <li ng-if="!user.loggedIn"><a ng-click="logIn()">Log in</a></li>
+            <li ng-show="!user.loggedIn"><a ng-click="logIn()">Log in</a></li>
             <li><form>
               <div class="input-field">
                 <input id="search" type="search" ng-model="searchText" ng-change="search(searchText)" placeholder="Search" required>
