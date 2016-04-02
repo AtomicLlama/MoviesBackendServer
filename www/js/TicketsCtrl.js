@@ -33,7 +33,7 @@ app.controller('TicketsCtrl', function ($scope, $rootScope, $routeParams, DataMa
     if ($scope.location && $scope.date) {
       $scope.loading = true;
       $scope.selectedShow = undefined;
-      DataManager.getShowtimes($scope.currentMovie.id,$scope.location,$scope.date,function(showtimes) {
+      DataManager.getShowtimes($rootScope.user, $scope.currentMovie.id,$scope.location,$scope.date,function(showtimes) {
         var cinemas = [];
         var i;
         for (i = 0; i < showtimes.length; i++) {
