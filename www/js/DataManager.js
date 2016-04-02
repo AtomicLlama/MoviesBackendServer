@@ -245,7 +245,7 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
       }
     },
     getShowtimes: function(user, id,location, date, callback) {
-      doBackendRequest("get","showtimes/" + id + "?lat=" + location.latitude + "&lon=" + location.longitude,user,function(response) {
+      doBackendRequest("GET","showtimes/" + id + "?lat=" + location.latitude + "&lon=" + location.longitude,user,function(response) {
         callback(response);
       });
     }
