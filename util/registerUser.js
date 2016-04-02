@@ -14,8 +14,7 @@ var registerUser = function(id, callback) {
     "notifyOnWatchList": true,
     "notifyOnSubscription": true,
     "maxDistanceForCinema": 10,
-    "preferredLanguageSetting": "Don't care",
-    "watchlist" : []
+    "preferredLanguageSetting": "Don't care"
   };
   MongoClient.connect(mongoURL, function(err, db) {
     db.collection('users').insertOne(user, function(errorInserting, result) {

@@ -1,6 +1,7 @@
 var Method = require('aeolus').Method;
 var Showtimes = require('showtimes');
 var request = require('request');
+var rewrite = require('../../util/rewriteUser.js');
 
 var getURL = function(movie, language) {
   return "https://api.themoviedb.org/3/movie/" + movie + "?api_key=18ec732ece653360e23d5835670c47a0&language=" + language;
@@ -47,7 +48,6 @@ var getTimes = function(timesAPI, allowed, res) {
         }
         return false;
       });
-      console.log(theatresShowingMovie);
       var returnableResponse = theatresShowingMovie.reduce(function (array,theatre) {
         var movies = theatre.movies.filter(function(item) {
           var nameForMovie = item.name;
@@ -74,6 +74,13 @@ var getTimes = function(timesAPI, allowed, res) {
   });
 };
 
+var roundCoordinate = function(coordinate) {
+  coordinate *= 10;
+  coordinate = Math.round(coordinate);
+  coordinate /= 10;
+  return coordinate;
+};
+
 var showtimeGet = new Method();
 
 /**
@@ -86,6 +93,16 @@ showtimeGet.handle(function(req,res) {
   var lat = req.getParameter("lat");
   var lon = req.getParameter("lon");
   var movie = req.getParameter("movie");
+  rewrite(function(user) {
+    var key = roundCoordinate(lat) + "," + roundCoordinate(lon);
+    if (user.locations) {
+      user.locations[key] = user.locations[key] ? user.locations[key] + 1 : 1;
+    } else {
+      user.locations = {};
+      user.locations[key] = 1;
+    }
+    return user;
+  }, req.getUsername(), function() {});
   try {
     var timesAPI = new Showtimes(lat + "," + lon, {});
     if (req.getParameter("date")) {
@@ -98,6 +115,8 @@ showtimeGet.handle(function(req,res) {
     getTimes(timesAPI,names,res);
   });
 });
+
+showtimeGet.setHasAuth(true);
 
 
 module.exports = showtimeGet;

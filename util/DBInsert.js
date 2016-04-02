@@ -15,6 +15,7 @@ var insert = function(table, object, success, error) {
           }
         });
       } else {
+        db.close();
         success(true);
       }
     });
