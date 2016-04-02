@@ -17,7 +17,6 @@ var rewriteUser = function(map, id, callback) {
         throw err;
       } else {
         var newUser = map(doc);
-        console.log(newUser);
         db.collection('users').save(newUser);
         callback(newUser);
       }

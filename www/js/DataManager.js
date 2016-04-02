@@ -244,11 +244,9 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
         },err);
       }
     },
-    getShowtimes: function(id,location,date,callback) {
-      $http.get("showtimes?movie=" + id + "&lat=" + location.latitude + "&lon=" + location.longitude).then(function(response) {
-        callback(response.data);
-      },function(err) {
-        callback([]);
+    getShowtimes: function(user, id,location, date, callback) {
+      doBackendRequest("get","showtimes/" + id + "&lat=" + location.latitude + "&lon=" + location.longitude,user,function(response) {
+        callback(response);
       });
     }
   };
