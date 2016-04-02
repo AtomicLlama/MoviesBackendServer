@@ -11,7 +11,7 @@ var languagePost = new Method();
 
 languagePost.handle(function(req, res) {
   try {
-    var pref = req.getParameter("req");
+    var pref = req.getParameter("pref");
     rewriteAttributeForUser(function(user){
       user.preferredLanguageSetting = pref;
       return user;

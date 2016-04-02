@@ -41,15 +41,17 @@ var getTimes = function(timesAPI, allowed, res) {
         for (var j in theatre.movies) {
           var item = theatre.movies[j];
           var nameForMovie = item.name;
-          if (allowed.indexOf(nameForMovie.replace(/ *\([^)]*\) */g, "")) > -1) {
+          if (allowed.indexOf(nameForMovie.replace(/ *\([^)]*\) */g, "")) >= 0) {
             return true;
           }
         }
+        return false;
       });
+      console.log(theatresShowingMovie);
       var returnableResponse = theatresShowingMovie.reduce(function (array,theatre) {
         var movies = theatre.movies.filter(function(item) {
           var nameForMovie = item.name;
-          return allowed.indexOf(nameForMovie.replace(/ *\([^)]*\) */g, "")) > -1;
+          return allowed.indexOf(nameForMovie.replace(/ *\([^)]*\) */g, "")) >= 0;
         });
         var stuff = movies.map(function(item) {
           return {

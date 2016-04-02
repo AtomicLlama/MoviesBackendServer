@@ -1,5 +1,5 @@
 var Method = require('aeolus').Method;
-var findUser = require('../../util/findUser.js');
+var findAll = require('../../util/DBFindAll.js');
 
 
 /**
@@ -11,11 +11,15 @@ var findUser = require('../../util/findUser.js');
 var watchlistGet = new Method();
 
 watchlistGet.handle(function(req, res) {
-  var callback = function(data) {
-    var movies = data.watchlist;
-    res.respondJSON(movies);
-  };
-  findUser(callback, req.getUsername());
+  var id = req.getUsername();
+  findAll("watchlist", {user: id}, function(movies) {
+    var items = movies.map(function(item) { return item.movie; });
+    res.respondJSON(items);
+  }, function(err) {
+    res.respondJSON([]);
+  });
 });
+
+watchlistGet.setHasAuth(true);
 
 module.exports = watchlistGet;
