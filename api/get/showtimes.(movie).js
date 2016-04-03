@@ -78,7 +78,7 @@ var roundCoordinate = function(coordinate) {
   coordinate *= 10;
   coordinate = Math.round(coordinate);
   coordinate /= 10;
-  return coordinate;
+  return coordinate + "";
 };
 
 var showtimeGet = new Method();
@@ -94,7 +94,7 @@ showtimeGet.handle(function(req,res) {
   var lon = req.getParameter("lon");
   var movie = req.getParameter("movie");
   rewrite(function(user) {
-    var key = roundCoordinate(lat) + "," + roundCoordinate(lon);
+    var key = roundCoordinate(lat).replace(".","_") + "," + roundCoordinate(lon).replace(".","_");
     if (user.locations) {
       user.locations[key] = user.locations[key] ? user.locations[key] + 1 : 1;
     } else {
@@ -102,7 +102,7 @@ showtimeGet.handle(function(req,res) {
       user.locations[key] = 1;
     }
     return user;
-  }, req.getUsername(), function() {});
+  }, req.getUsername(), function(user) {});
   try {
     var timesAPI = new Showtimes(lat + "," + lon, {});
     if (req.getParameter("date")) {
