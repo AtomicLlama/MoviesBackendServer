@@ -38,7 +38,7 @@
     "awesome"
   ],
   "dependencies": {
-    "aeolus": "*",
+    "aeolus": "^1.1.28",
     "mongodb": "*",
     "request": "*",
     "showtimes": "*"

@@ -2,8 +2,6 @@ var Aeolus = require('aeolus');
 var auth = require('./util/auth.js');
 var dbUrl = require('./util/DBUrl.js');
 
-console.log(Aeolus);
-
 Aeolus.setDB(dbUrl);
 Aeolus.auth(auth);
 Aeolus.methods("/api");
