@@ -6,7 +6,7 @@ subsGet.DBWrapper.findAll('subs', function (req) {
     user: req.getUsername()
   };
 }, function (item) {
-  return user.person;
+  return item.person;
 });
 
 subsGet.setHasAuth(true);
