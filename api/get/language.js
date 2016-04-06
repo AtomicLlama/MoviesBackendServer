@@ -1,21 +1,14 @@
 var Method = require('aeolus').Method;
-var findUser = require('../../util/findUser.js');
-
-
 var languageGet = new Method();
 
-/**
- * Get the Language Setting of a user
- * @param  {Request}  req  Request
- * @param  {Response} res  Response
- * @return {void}          nothing
- */
-languageGet.handle(function(req, res) {
-  var callback = function(data) {
-    var setting = data.preferredLanguageSetting;
-    res.respondJSON(setting);
+languageGet.onError(require('../../util/registerUser.js'));
+
+languageGet.DBWrapper.find('users', function (req) {
+  return {
+    facebookID: req.getUsername()
   };
-  findUser(callback, req.getUsername());
+},function (user) {
+  return user.preferredLanguageSetting;
 });
 
 languageGet.setHasAuth(true);

@@ -1,21 +1,14 @@
 var Method = require('aeolus').Method;
-var findUser = require('../../util/findUser.js');
-
-
 var notifySubGet = new Method();
 
-/**
- * Get the Language Setting of a user
- * @param  {Request}  req  Request
- * @param  {Response} res  Response
- * @return {void}          nothing
- */
-notifySubGet.handle(function(req, res) {
-  var callback = function(data) {
-    var pref = data.notifyOnSubscription;
-    res.respondJSON(pref);
+notifySubGet.onError(require('../../util/registerUser.js'));
+
+notifySubGet.DBWrapper.find('users', function (req) {
+  return {
+    facebookID: req.getUsername()
   };
-  findUser(callback, req.getUsername());
+},function (user) {
+  return user.notifyOnSubscription;
 });
 
 notifySubGet.setHasAuth(true);

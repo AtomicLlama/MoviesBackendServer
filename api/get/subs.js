@@ -1,20 +1,12 @@
 var Method = require('aeolus').Method;
-var findUser = require('../../util/findUser.js');
-
 var subsGet = new Method();
 
-/**
- * Get the Subscriptions of a user
- * @param  {Request}  req  Request
- * @param  {Response} res  Response
- * @return {void}          nothing
- */
-subsGet.handle(function(req, res) {
-  var callback = function(data) {
-    var subs = data.subs || [];
-    res.respondJSON(subs);
+subsGet.DBWrapper.findAll('subs', function (req) {
+  return {
+    user: req.getUsername()
   };
-  findUser(callback, req.getUsername());
+}, function (item) {
+  return user.person;
 });
 
 subsGet.setHasAuth(true);

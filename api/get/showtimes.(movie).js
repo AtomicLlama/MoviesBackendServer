@@ -1,7 +1,7 @@
 var Method = require('aeolus').Method;
+var DB = require('aeolus').DB;
 var Showtimes = require('showtimes');
 var request = require('request');
-var rewrite = require('../../util/rewriteUser.js');
 
 var getURL = function(movie, language) {
   return "https://api.themoviedb.org/3/movie/" + movie + "?api_key=18ec732ece653360e23d5835670c47a0&language=" + language;
@@ -93,7 +93,7 @@ showtimeGet.handle(function(req,res) {
   var lat = req.getParameter("lat");
   var lon = req.getParameter("lon");
   var movie = req.getParameter("movie");
-  rewrite(function(user) {
+  DB.map('users', { facebookID: req.getUsername() }, function(user) {
     var key = roundCoordinate(lat).replace(".","_") + "," + roundCoordinate(lon).replace(".","_");
     if (user.locations) {
       user.locations[key] = user.locations[key] ? user.locations[key] + 1 : 1;
@@ -102,7 +102,7 @@ showtimeGet.handle(function(req,res) {
       user.locations[key] = 1;
     }
     return user;
-  }, req.getUsername(), function(user) {});
+  });
   try {
     var timesAPI = new Showtimes(lat + "," + lon, {});
     if (req.getParameter("date")) {

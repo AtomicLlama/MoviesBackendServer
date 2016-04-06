@@ -1,20 +1,14 @@
 var Method = require('aeolus').Method;
-var findUser = require('../../util/findUser.js');
-
 var distanceGet = new Method();
 
-/**
- * Get the Distance Setting of a user
- * @param  {Request}  req  Request
- * @param  {Response} res  Response
- * @return {void}          nothing
- */
-distanceGet.handle(function(req, res) {
-  var callback = function(data) {
-    var distance = data.maxDistanceForCinema;
-    res.respondJSON(distance);
+distanceGet.onError(require('../../util/registerUser.js'));
+
+distanceGet.DBWrapper.find('users',function (req) {
+  return {
+    facebookID: req.getUsername()
   };
-  findUser(callback, req.getUsername());
+}, function (user) {
+  return user.maxDistanceForCinema;
 });
 
 distanceGet.setHasAuth(true);
