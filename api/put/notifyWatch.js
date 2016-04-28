@@ -1,4 +1,5 @@
 var Method = require('aeolus').Method;
+var DB = require('aeolus').DB;
 var notifyWatchPost = new Method();
 
 notifyWatchPost.handle(function(req, res) {

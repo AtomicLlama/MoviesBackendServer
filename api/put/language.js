@@ -1,4 +1,5 @@
 var Method = require('aeolus').Method;
+var DB = require('aeolus').DB;
 var languagePost = new Method();
 
 languagePost.handle(function(req, res) {
