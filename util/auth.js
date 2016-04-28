@@ -10,7 +10,7 @@ var generateURL = function(token) {
  * @param  {Request} req  Request
  * @return {void}         Nothing
  */
-var verifyAuth = function(user,pass, callback) {
+var verifyAuth = function(user, pass, callback) {
   request(generateURL(pass), function(error, response, body) {
     if (!error || error === null) {
       var loggedin = JSON.parse(body).id == user;
