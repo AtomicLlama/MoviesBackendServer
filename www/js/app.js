@@ -1,6 +1,6 @@
 var app = angular.module('movies', ['ngRoute']);
 
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.
   when('/', {
     templateUrl: 'featured.html',
@@ -33,4 +33,5 @@ app.config(['$routeProvider', function($routeProvider) {
   otherwise({
     redirectTo: '/404'
   });
+  $locationProvider.html5Mode(true);
 }]);

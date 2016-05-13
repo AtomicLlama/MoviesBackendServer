@@ -1,104 +1,121 @@
 <!DOCTYPE html>
-  <html ng-app="movies">
+<html ng-app="movies">
     <head>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <title>Movies: {{title}}</title>
-      <style>
-        #foo {
-          position: fixed;
-          bottom: 0;
-          right: 0;
-        }
-      </style>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <script src="angular/angular.min.js"></script>
-      <script src="angular/angular-route.min.js"></script>
-      <script src="https://connect.facebook.net/en_US/all.js"></script>
-      <script src="js/app.js"></script>
-      <script src="js/DataManager.js"></script>
-      <script src="js/MainCtrl.js"></script>
-      <script src="js/FeaturedCtrl.js"></script>
-      <script src="js/MovieCtrl.js"></script>
-      <script src="js/PersonCtrl.js"></script>
-      <script src="js/SearchCtrl.js"></script>
-      <script src="js/WatchlistCtrl.js"></script>
-      <script src="js/NotFoundCtrl.js"></script>
-      <script src="js/TicketsCtrl.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+        <title>Movies: {{title}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src="angular/angular.min.js"></script>
+        <script src="angular/angular-route.min.js"></script>
+        <script src="https://connect.facebook.net/en_US/all.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/DataManager.js"></script>
+        <script src="js/MainCtrl.js"></script>
+        <script src="js/FeaturedCtrl.js"></script>
+        <script src="js/MovieCtrl.js"></script>
+        <script src="js/PersonCtrl.js"></script>
+        <script src="js/SearchCtrl.js"></script>
+        <script src="js/WatchlistCtrl.js"></script>
+        <script src="js/NotFoundCtrl.js"></script>
+        <script src="js/TicketsCtrl.js"></script>
+        <base href="/" target="_blank" />
     </head>
     <body ng-controller="MainCtrl">
-      <div id="fb-root"></div>
-      <script>
-        (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.5&appId=1712108749000589";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-      </script>
-      <div class="navbar-fixed">
-        <nav>
-        <div class="nav-wrapper pink accent-3">
-          <a href="#/" class="brand-logo" id="logo"><img height="64" class="left" src="logo.png"/></a>
-          <ul class="right hide-on-med-and-down">
-            <li ng-show="user.loggedIn">
-              <a class="dropdown-button" data-activates="dropdown1">
-                <div class="left">
-                  <div class="col s10">
-                    <div style="height: 10px;"></div>
-                    <img src="{{user.image}}" alt="http://img2.wikia.nocookie.net/__cb20130607025329/creepypasta/images/3/38/Avatar-blank.jpg" width="44" class="circle responsive-img">
-                  </div>
+        <div id="fb-root"></div>
+        <script>
+            (function(d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.5&appId=1712108749000589";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper pink accent-3">
+                    <a href="#/" class="brand-logo" id="logo"><img height="64" class="left" src="logo.png"/></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li ng-show="user.loggedIn">
+                            <a class="dropdown-button" data-activates="dropdown1">
+                                <div class="left">
+                                    <div class="col s10">
+                                        <div style="height: 10px;"></div>
+                                        <img src="{{user.image}}" alt="http://img2.wikia.nocookie.net/__cb20130607025329/creepypasta/images/3/38/Avatar-blank.jpg" width="44" class="circle responsive-img">
+                                    </div>
+                                </div>
+                                {{user.name}}
+                                <i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                            <ul id="dropdown1" class="dropdown-content">
+                                <li ng-click="showWatchlist()">
+                                    <a href="#/watchlist">
+                                        <i class="material-icons">grade</i>Watchlist</a>
+                                </li>
+                                <li ng-click="logOut()">
+                                    <a>
+                                        <i class="material-icons">not_interested</i>Log out</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-show="!user.loggedIn">
+                            <a ng-click="logIn()">Log in</a>
+                        </li>
+                        <li>
+                            <form>
+                                <div class="input-field">
+                                    <input id="search" type="search" ng-model="searchText" ng-change="search(searchText)" placeholder="Search" required>
+                                    <label for="search">
+                                        <i class="material-icons">search</i>
+                                    </label>
+                                    <i class="material-icons" href="/">close</i>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-                 {{user.name}}
-                <i class="material-icons right">arrow_drop_down</i>
-              </a>
-              <ul id="dropdown1" class="dropdown-content">
-                <li ng-click="showWatchlist()"><a href="#/watchlist"><i class="material-icons">grade</i>Watchlist</a></li>
-                <li ng-click="logOut()"><a><i class="material-icons">not_interested</i>Log out</a></li>
-              </ul>
-            </li>
-            <li ng-show="!user.loggedIn"><a ng-click="logIn()">Log in</a></li>
-            <li><form>
-              <div class="input-field">
-                <input id="search" type="search" ng-model="searchText" ng-change="search(searchText)" placeholder="Search" required>
-                <label for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons" href="/">close</i>
-              </div>
-            </form></li>
-          </ul>
+            </nav>
         </div>
-        </nav>
-      </div>
-  </div>
-  <div ng-view></div>
-  <div id="Featured">
-	    <div class="container">
-        <div class="progress" ng-show="progress()">
-            <div class="indeterminate"></div>
-        </div>
-	    	<div class="row">
-          <div ng-class="classForMovieCard()" ng-repeat="item in displayAbleMovies track by item.id">
-            <div class="card">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img ng-click="presentMovie(item)" src="{{item.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'" height="450" width="300">
-              </div>
-              <div class="card-content">
-                <span ng-click="presentMovie(item)" class="card-title grey-text text-darken-4">{{item.stitle}}<a class="right"><i class="material-icons">grade</i>{{item.rating}}</a></span>
-                <p>{{item.short}}</p>
-              </div>
-              <div ng-show="user.loggedIn" class="card-action">
-                <a><i class="material-icons">payment</i></a>
-                <a ng-click="toggleWatchlist(item)"><i class="material-icons">{{iconForMovie(item)}}</i></a>
-                <a ng-click="presentMovie(item)"><i class="material-icons right">more_vert</i></a>
-              </div>
+    </div>
+    <div ng-view></div>
+    <div id="Featured">
+        <div class="container">
+            <div class="progress" ng-show="progress()">
+                <div class="indeterminate"></div>
             </div>
-          </div>
-	    	</div>
-	    </div>
-	</div>
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-    </body>
-  </html>
+            <div class="row">
+                <div ng-class="classForMovieCard()" ng-repeat="item in displayAbleMovies track by item.id">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img ng-click="presentMovie(item)" src="{{item.poster}}" onerror="this.src='https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg'" height="450" width="300">
+                        </div>
+                        <div class="card-content">
+                            <span ng-click="presentMovie(item)" class="card-title grey-text text-darken-4">{{item.stitle}}
+                                <a class="right">
+                                    <i class="material-icons">grade</i>{{item.rating}}</a>
+                            </span>
+                            <p>{{item.short}}</p>
+                        </div>
+                        <div ng-show="user.loggedIn" class="card-action">
+                            <a>
+                                <i class="material-icons">payment</i>
+                            </a>
+                            <a ng-click="toggleWatchlist(item)">
+                                <i class="material-icons">{{iconForMovie(item)}}</i>
+                            </a>
+                            <a ng-click="presentMovie(item)">
+                                <i class="material-icons right">more_vert</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+</html>
