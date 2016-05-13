@@ -22,7 +22,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     templateUrl: 'search.html',
     controller: 'SearchCtrl'
   }).
-  when('/watchlist',{
+  when('/me/watchlist',{
     templateUrl: 'watchlist.html',
     controller: 'WatchlistCtrl'
   }).
