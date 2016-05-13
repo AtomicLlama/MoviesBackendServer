@@ -41,6 +41,10 @@ app.controller('MainCtrl', function ($rootScope, $http, $location, DataManager,$
     $location.path("/404");
   };
 
+  $rootScope.goToWatchlist = function() {
+    $location.path("/me/watchlist");
+  };
+
   var login = function(response) {
     if (response.authResponse) {
         console.log(response.authResponse);
