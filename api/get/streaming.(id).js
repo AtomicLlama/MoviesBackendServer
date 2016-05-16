@@ -1,5 +1,4 @@
 var Method = require('aeolus').Method;
-var NetflixRoulette = require('netflix-roulette');
 var http = require('request');
 
 var supported = {
