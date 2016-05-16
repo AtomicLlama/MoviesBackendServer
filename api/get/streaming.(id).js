@@ -4,7 +4,7 @@ var http = require('request');
 var supported = {
   'netflix_instant': function(id) {
     return {
-      "service": "netflix",
+      "service": "Netflix",
       "id": id,
       "link": "https://www.netflix.com/watch/" + id
     };

@@ -102,6 +102,10 @@ showtimeGet.handle(function(req,res) {
       user.locations[key] = 1;
     }
     return user;
+  }, function() {
+    console.log("Success updating location of the user in DB.");
+  }, function(er) {
+    console.error("Error " + err );
   });
   try {
     var timesAPI = new Showtimes(lat + "," + lon, {});
