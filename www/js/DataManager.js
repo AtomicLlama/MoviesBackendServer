@@ -101,6 +101,15 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
     });
   };
 
+  var getStreamingForMovie = function (movie) {
+    $http.get("streaming/" + movie.id).then(function(response) {
+      console.log(response);
+      movie.streaming = response.data;
+    }, function(err) {
+      console.log(err);
+    });
+  };
+
   var getWatchlist = function(user, callback) {
     watchlist.length = 0;
     doBackendRequest("GET","watchlist",user,function(array) {
@@ -248,6 +257,9 @@ app.service('DataManager', ['$http','$sce', '$q', function($http, $sce, $q) {
       doBackendRequest("GET","showtimes?movie=" + id + "&lat=" + location.latitude + "&lon=" + location.longitude,user,function(response) {
         callback(response);
       });
+    },
+    getStreaming: function (movie) {
+      getStreamingForMovie(movie);
     }
   };
 

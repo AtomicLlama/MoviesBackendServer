@@ -12,7 +12,7 @@ var url = function(resource) {
   return "https://api.themoviedb.org/3/movie/" + resource + "?api_key=18ec732ece653360e23d5835670c47a0";
 };
 
-var toSet = function(data,map) {
+var toSet = function(data, map) {
   var targetAttributes = [];
   var newData = [];
   for (var i = 0; i < data.length; i++) {

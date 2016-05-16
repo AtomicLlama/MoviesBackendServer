@@ -13,6 +13,14 @@
           <h4>
             Rating: <i class="material-icons">grade</i>{{currentMovie.rating}}
           </h4>
+          <div ng-show="currentMovie.streaming">
+            <h5>Watch it now!</h5>
+            <div ng-repeat="st in currentMovie.streaming">
+              <a class="waves-effect waves-light btn" href="{{st.link}}">
+                {{st.service}}
+              </a>
+            </div>
+          </div>
           <div ng-show="user.loggedIn">
             <div class="center-allign">
               <a ng-if="!isInWatchlist" class="waves-effect waves-light btn" ng-click="toggle()">

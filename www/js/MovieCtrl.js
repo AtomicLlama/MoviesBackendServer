@@ -1,6 +1,7 @@
 app.controller('MovieCtrl', function ($scope, $rootScope, $routeParams, DataManager) {
   if ($routeParams.id) {
-    DataManager.getMovie($routeParams.id,function(movie){
+    DataManager.getMovie($routeParams.id, function(movie) {
+      DataManager.getStreaming(movie);
       $scope.currentMovie = movie;
       $rootScope.title = movie.title;
       $scope.isInWatchlist = DataManager.isInWatchlist(movie);
