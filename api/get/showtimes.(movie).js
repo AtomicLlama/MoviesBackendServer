@@ -36,7 +36,10 @@ var getAllNames = function(id, callback) {
 };
 
 var getTimes = function(timesAPI, allowed, res) {
+  console.log(timesAPI);
   timesAPI.getTheaters(function(err, response) {
+    console.log(err);
+    console.log(response);
     if (err === null) {
       var theatresShowingMovie = response.filter(function(theatre) {
         for (var j in theatre.movies) {
@@ -104,18 +107,21 @@ showtimeGet.handle(function(req,res) {
     return user;
   }, function() {
     console.log("Success updating location of the user in DB.");
-  }, function(er) {
+  }, function(err) {
     console.error("Error " + err );
   });
   try {
-    var timesAPI = new Showtimes(lat + "," + lon, {});
+    var location = lat + "," + lon;
+    console.log(location);
+    var timesAPI = new Showtimes(location, {});
     if (req.getParameter("date")) {
-      timesAPI = new Showtimes(lat + "," + lon, {date: req.getParameter("date")});
+      timesAPI = new Showtimes(location, {date: req.getParameter("date")});
     }
   } catch (e) {
     res.respondPlainText("You need to specify what setting to add through the query.", 501);
   }
   getAllNames(movie, function(names) {
+    console.log("Names: " + names);
     getTimes(timesAPI,names,res);
   });
 });
